@@ -1,0 +1,505 @@
+//
+//some temp style in nested css/ scss format
+//@import url('https://fonts.googleapis.com/css2?family=Finlandica:ital@1&display=swap');
+//
+
+:root {
+    --hue: 235;
+    --sat: 35%;
+    --light: 12%;
+    --hueAscent: 180;
+    --satAscent: 50%;
+    --lightAscent: 80%;
+    --lightText:98%;
+    --textColor: hsl(var(--hue),100%,var(--lightText));
+    --primaryColor: hsl(var(--hue), 90%, 50%);
+    --linkColor: hsl(var(--hue), 50%, 60%);
+    --ascentColor: hsl(var(--hueAscent), calc(var(--sat) * 1.5), calc(var(--light) * 2));
+    --colorScheme: dark;
+    --testShadow: hsl(var(--hue),100%,calc(100% - var(--lightText)));
+    --lightFactor: 1;
+    --fontScale: 1;
+    --fontFamily: "Roboto", "Finlandica", "Poppins", "Arial";
+    --headerHeight: 60px;
+    --bgColor: hsl(var(--hue), calc(var(--sat) * 1.5), 5%);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    transition: all 100ms ease-in-out;
+
+}
+
+.hide {
+    display: none;
+}
+
+.blur {
+    filter: blur(3px) brightness(60%);
+}
+
+html {
+    color-scheme: dark light;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--bgColor, #222);
+    font-size: var(--fontSize);
+    background-color: var(--bgColor);
+}
+
+img,
+picture,
+svg,
+video {
+    display: block;
+    max-width: 100%;
+    max-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color:var(--linkColor);
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+
+    &:hover {
+        width: 8px;
+    }
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+
+    &:hover {
+        background: #555;
+    }
+}
+
+.heading {
+    font-size: clamp(1.2rem, 5vw, 2rem);
+    padding: 1em !important;
+}
+
+#app {
+    --h: var(--hue, 200);
+    --s: var(--sat, 50%);
+    --l: calc(var(--light, 15%) * var(--lightFactor, 1));
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    color: var(--textColor, white);
+    font-size: calc(1rem * var(--fontScale, 1));
+    font-family: var(--fontFamily), "arial", "sans";
+
+
+
+    header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        --s: calc(var(--sat, 50%) * var(--lightFactor, 1) * 1.5);
+        --l: calc(var(--light, 15%) * var(--lightFactor, 1) * .5);
+        background-color: hsl(var(--h), var(--s), var(--l));
+        position: sticky;
+        top: 0px;
+        min-height: var(--headerHeight, 60px);
+        padding: 5px;
+        z-index: 100;
+
+
+        .title {
+            padding: 1em;
+        }
+
+        .pathNavigator {
+            font-size: .8em;
+            color: var(--primaryColor, aqua);
+            padding: 5px;
+            margin: 5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            background-color: rgb(255, 255, 255);
+
+
+            &:after {
+                content: " /"
+            }
+
+            &:hover {
+                background-color: rgb(249, 255, 166);
+            }
+
+            &:first-of-type {
+                content: "";
+            }
+
+        }
+    }
+
+    main {
+        min-height: 100vh;
+        font-family: var(--fontFamily);
+        font-size: var(--fontSize);
+        background-color: hsl(var(--h), var(--s), var(--l));
+
+        &:fullscreen {
+
+            background-color: hsl(var(--h), var(--s), var(--l));
+        }
+        a{
+            border-bottom: 1px solid var(--linkColor,aqua);
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+.footer {
+    background-color: hsla(var(--hue, 180), 80%, 5%, 1);
+    position: fixed;
+    display: block;
+    width: 100%;
+    left: 0px;
+    bottom: calc(100vh - 100%);
+    transform: translateY(calc(100% - 2em));
+    transition: all 400ms ease-in-out;
+    border-top: hsla(var(--hue), 70%, 30%, .1) solid 2em;
+
+
+    &:hover {
+        transform: translateY(0);
+        border-top: hsla(var(--hue), 30%, 30%, 0) solid 0em;
+    }
+
+
+    #footerButtons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 10vh;
+
+    }
+}
+
+
+.container {
+    padding-inline: 3em;
+}
+
+.dirGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    padding: 2em 3em;
+    grid-gap: 2em 1em;
+    z-index: inherit;
+}
+
+.folderLinks {
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-content: flex-end;
+    align-self: flex-end;
+    display: inline-block;
+    padding: 10px;
+    padding-top: 7.5em;
+    margin: 10px;
+    text-transform: uppercase;
+    color: var(--textColor, white);
+    text-shadow: #555;
+    font-size: .7em;
+    border-radius: 3px;
+    text-decoration: none;
+    min-width: 6em;
+    min-height: 8em;
+    margin-top: auto;
+    z-index: inherit;
+
+    &:hover {
+        box-shadow: 1px 1px 2px white;
+        background-color: hsla(0, 0%, 100%, 0.404);
+
+    }
+
+
+
+    &:before {
+        content: "";
+        width: 6em;
+        height: 5em;
+        border-radius: 5px;
+        position: absolute;
+        top: 1em;
+        left: 0;
+        margin: 1em;
+        background-color: hsla(180, 81%, 39%, 0.6);
+        transform: skewY(0deg);
+    }
+
+    &:after {
+        content: "";
+        width: 5em;
+        height: 5em;
+        border-radius: 5px;
+        position: absolute;
+        top: 1em;
+        left: 0;
+        margin: 1em;
+        background-color: rgba(75, 236, 236, 0.6);
+        transform: skewY(-20deg) translateY(-10px);
+    }
+}
+
+.csvLinks{
+
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-content: flex-end;
+    align-self: flex-end;
+    display: inline-block;
+    padding-block: 10px;
+    padding-inline: 15px;
+    margin: 10px;
+    text-transform: uppercase;
+    color: var(--textColor, white);
+    font-size: .7em;
+    border-radius: 3px;
+    text-decoration: none;
+    width: 150px;
+    height: 110px;
+    margin-top: auto;
+    z-index: inherit;
+    background-color: hsla(0, 0%, 100%, 0.104);
+
+    &:hover {
+        box-shadow: 1px 1px 2px white;
+        background-color: hsla(0, 0%, 100%, 0.404);
+
+    }
+
+
+    &:before {
+        background-color: rgb(19, 179, 179);
+        transform: skewY(0deg);
+        width: 60px;
+
+    }
+
+    &:after {
+        position: absolute;
+        bottom:5px;
+        right:5px;
+        content:"CSV";
+        background-color: hsl(var(--hueAscent), 81%, 21%);
+        padding:5px;
+        border-radius: 4px;
+        font-weight: 900;
+    }
+}
+
+.slideLinks {
+
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-content: flex-end;
+    align-self: flex-end;
+    display: inline-block;
+    padding-block: 10px;
+    padding-inline: 15px;
+    margin: 10px;
+    text-transform: uppercase;
+    color: var(--textColor, white);
+    font-size: .7em;
+    border-radius: 3px;
+    text-decoration: none;
+    width: 150px;
+    height: 110px;
+    margin-top: auto;
+    z-index: inherit;
+    background-color: hsla(0, 0%, 100%, 0.104);
+
+    &:hover {
+        box-shadow: 1px 1px 2px white;
+        background-color: hsla(0, 0%, 100%, 0.404);
+
+    }
+
+
+    &:before {
+        background-color: rgb(19, 179, 179);
+        transform: skewY(0deg);
+        width: 60px;
+
+    }
+
+    &:after {
+        background-color: rgb(76, 236, 236);
+        transform: skewY(-20deg) translateY(-10px);
+
+    }
+}
+
+
+
+.pdfLinks {
+
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-content: flex-end;
+    align-self: flex-end;
+    display: inline-block;
+    padding-block: 10px;
+    padding-inline: 15px;
+    margin: 10px;
+    text-transform: uppercase;
+    color: var(--textColor, white);
+    font-size: .7em;
+    border-radius: 3px;
+    text-decoration: none;
+    min-width: 150px;
+    height: 110px;
+    margin-top: auto;
+    z-index: inherit;
+    background-color: hsla(0, 0%, 100%, 0.104);
+
+    &:hover {
+        box-shadow: 1px 1px 2px white;
+        background-color: hsla(0, 0%, 100%, 0.404);
+
+    }
+
+
+
+    &:after {
+        position: absolute;
+        bottom:5px;
+        right:5px;
+        content:"PDF";
+        background-color: hsl(var(--hueAscent), 81%, 21%);
+        padding:5px;
+        border-radius: 4px;
+        font-weight: 900;
+    }
+}
+
+.button {
+    display: inline-block;
+    position: relative;
+    padding: .5em;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+    background-color: hsla(var(--hueAscent), 80%, 30%, 0.4);
+    border: none;
+    border-radius: .5em;
+    transition: all 0.2s ease-in-out;
+    margin: 1em;
+    perspective: 0em;
+    transform: translateZ(1em);
+
+
+
+    &:hover {
+        --hueAscent: var(--hue);
+        background-color: hsla(var(--hueAscent), 80%, 30%, 0.4);
+
+
+    }
+
+
+}
+
+pre,
+samp {
+    display: block;
+    margin-block: 1em;
+}
+
+
+
+pre code,code-block{
+  padding:1em;
+  box-shadow:2px 2px 5px hsla(var(--hueAscent),50%,40%,.8);
+  border-radius: 1em;
+  font-size:.7em;
+  font-family: monospace;
+  display: block;
+  background-color:hsla(0,10%,10%,.2);
+}
+
+.code-inline{
+padding:.1em;
+box-shadow:2px 2px 5px hsla(var(--hueAscent),50%,40%,.2);
+  font-size: .8em;
+  font-family:monospace !important;
+  background-color:hsla(0,10%,10%,.2);
+  padding-inline: 1.5em;
+  border-radius: .2em;
+  display: inline !important;
+  .copyIcon{
+    transform:scale(.7) translateY(-.8em);
+    display:none;
+    transition:1s ease-in;
+  }
+
+  &:hover{
+  .copyIcon{
+    display:block;
+    }
+  }
+}
+
+.samp {
+    font-size: .7em;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+
+ol,
+ul {
+    padding: 1em;
+    margin-left: 1em;
+}
+
+
