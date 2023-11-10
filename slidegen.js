@@ -1060,8 +1060,9 @@ function parselist(
             var dir = link.replaceAll("./", "");
             append(
               `#directoryGrid`,
-              gen(a, "", linkname, "folderLinks", {
+              gen(a, "", linkname, "folderLinks DisplayLink", {
                 "data-dir": dir,
+                "data-type":dir,
                 onclick: `appendDir(this)`,
                 tabindex: 10,
               })
@@ -1077,12 +1078,14 @@ function parselist(
             .replaceAll("-", " ")
             .replaceAll(".md", "")
             .replaceAll("_", " ");
+          var exttype=link.split(".").pop();
           if (link.length > 0 && link != "./") {
             var file = link.replaceAll("./", "");
             append(
               directoryGrid,
-              gen(a, `${url}`, linkname, "slideLinks", {
+              gen(a, `${url}`, linkname, "slideLinks DisplayLink", {
                 "data-file": file,
+                "data-type":exttype,
                 onclick: `appendfile(this)`,
                 tabindex: 10,
               })
@@ -1098,12 +1101,14 @@ function parselist(
             .replaceAll("-", " ")
             .replaceAll(".ipynb", "")
             .replaceAll("_", " ");
+            var exttype=link.split(".").pop();
           var file = link.replaceAll("./", "");
           if (link.length > 0 && link != "./") {
             append(
               directoryGrid,
-              gen(a, `${url}`, linkname, "slideLinks,notebookLinks", {
+              gen(a, `${url}`, linkname, "slideLinks, otebookLinks, DisplayLink", {
                 "data-file": file,
+                "data-type":exttype,
                 onclick: `appendfile(this)`,
                 tabindex: 10,
               })
@@ -1119,10 +1124,12 @@ function parselist(
             .replaceAll("-", " ")
             .replaceAll(".ipynb", "")
             .replaceAll("_", " ");
+          
           if (link.length > 0 && link != "./") {
             append(
               directoryGrid,
-              gen(object, `${url}`, linkname, "pdfLinks", {
+              gen(object, `${url}`, linkname, "pdfLinks DisplayLink", {
+                "data-type":ext,
                 onclick: `parsePdf(\`${url}\`)`,
                 tabindex: 10,
               })
@@ -1143,7 +1150,8 @@ function parselist(
             if (link.length > 0 && link != "./") {
               append(
                 directoryGrid,
-                gen(object, `${url}`, linkname, "csvLinks", {
+                gen(object, `${url}`, linkname, "csvLinks DisplayLink", {
+                  "data-type":ext,
                   onclick: `parseCsv(\`${url}\`)`,
                   tabindex: 10,
                 })

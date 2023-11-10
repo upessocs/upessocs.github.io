@@ -222,6 +222,24 @@ a {
     z-index: inherit;
 }
 
+
+.DisplayLink{
+    position: relative;
+    &:after {
+        position: absolute;
+        bottom:5px;
+        right:5px;
+        padding:5px;
+        border-radius: 4px;
+        font-weight: 900;
+        content:attr(data-type);
+        transform: skewY(-20deg) translateY(-10px);
+        background-color: hsla(var(--hueAscent,180), var(--satAscent,81%), calc(100% - var(--lightText,50%)), 0.6);
+        color:var(--textColor,white);
+    }
+}
+
+
 .folderLinks {
     cursor: pointer;
     position: relative;
@@ -329,6 +347,9 @@ a {
         font-weight: 900;
     }
 }
+
+
+
 
 .slideLinks {
 
