@@ -852,8 +852,14 @@ function footerButtons() {
   );
   append(
     `#footerButtons`,
-    gen(span, "print", "Print", "button,printSlides", {
+    gen(span, "print", "Print Slides", "button,printSlides", {
       onclick: "printSlides()",
+    })
+  );
+  append(
+    `#footerButtons`,
+    gen(span, "print", "Print Notes", "button,printSlides", {
+      onclick: "printNotes()",
     })
   );
   append(
@@ -958,7 +964,12 @@ function reloadPage() {
 
 
 function printSlides(){
-  loadscss(printstyle,"printstyle");
+  loadscss(printSlideStyle,"printSlideStyle");
+  window.print()
+}
+
+function printNotes(){
+  loadscss(printNotesStyle,"printNotesStyle");
   window.print()
 }
 function changepath(thispath) {
@@ -1060,9 +1071,8 @@ function parselist(
             var dir = link.replaceAll("./", "");
             append(
               `#directoryGrid`,
-              gen(a, "", linkname, "folderLinks DisplayLink", {
+              gen(a, "", linkname, "folderLinks", {
                 "data-dir": dir,
-                "data-type":dir,
                 onclick: `appendDir(this)`,
                 tabindex: 10,
               })
@@ -1078,14 +1088,12 @@ function parselist(
             .replaceAll("-", " ")
             .replaceAll(".md", "")
             .replaceAll("_", " ");
-          var exttype=link.split(".").pop();
           if (link.length > 0 && link != "./") {
             var file = link.replaceAll("./", "");
             append(
               directoryGrid,
-              gen(a, `${url}`, linkname, "slideLinks DisplayLink", {
+              gen(a, `${url}`, linkname, "slideLinks", {
                 "data-file": file,
-                "data-type":exttype,
                 onclick: `appendfile(this)`,
                 tabindex: 10,
               })
@@ -1101,14 +1109,12 @@ function parselist(
             .replaceAll("-", " ")
             .replaceAll(".ipynb", "")
             .replaceAll("_", " ");
-            var exttype=link.split(".").pop();
           var file = link.replaceAll("./", "");
           if (link.length > 0 && link != "./") {
             append(
               directoryGrid,
-              gen(a, `${url}`, linkname, "slideLinks, otebookLinks, DisplayLink", {
+              gen(a, `${url}`, linkname, "slideLinks,notebookLinks", {
                 "data-file": file,
-                "data-type":exttype,
                 onclick: `appendfile(this)`,
                 tabindex: 10,
               })
@@ -1124,12 +1130,10 @@ function parselist(
             .replaceAll("-", " ")
             .replaceAll(".ipynb", "")
             .replaceAll("_", " ");
-          
           if (link.length > 0 && link != "./") {
             append(
               directoryGrid,
-              gen(object, `${url}`, linkname, "pdfLinks DisplayLink", {
-                "data-type":ext,
+              gen(object, `${url}`, linkname, "pdfLinks", {
                 onclick: `parsePdf(\`${url}\`)`,
                 tabindex: 10,
               })
@@ -1150,8 +1154,7 @@ function parselist(
             if (link.length > 0 && link != "./") {
               append(
                 directoryGrid,
-                gen(object, `${url}`, linkname, "csvLinks DisplayLink", {
-                  "data-type":ext,
+                gen(object, `${url}`, linkname, "csvLinks", {
                   onclick: `parseCsv(\`${url}\`)`,
                   tabindex: 10,
                 })
@@ -1749,7 +1752,7 @@ var hidenodescss=`
 `
 setTimeout(loadscss(hidenodescss),2000)
 
-var printstyle=`
+var printSlideStyle=`
 
 @media print {
     @page {
@@ -1795,7 +1798,64 @@ var printstyle=`
    }
 }`
 
-loadscss(printstyle,"printstyle")
+
+var printNotesStyle=`
+
+@media print {
+    @page {
+        size: A4 portrait;
+    }
+    body{
+    font-size:12px;
+    --fontsize:12px;
+    
+    }
+:root{
+  --fontsize:12px;
+  --fontScale:.7;
+
+
+}
+
+    .slideroot,
+    .blockroot {
+        overflow: auto;
+        height: min-content;
+        background-color: white;
+padding:.5em;
+    }
+
+    .slide {
+//        page-break-after: always;
+//        break-inside: avoid;
+//        page-break-inside: avoid;
+    }
+
+    .block {
+//        break-inside: avoid;
+//        page-break-inside: avoid;
+    }
+
+    img {
+        display: block;
+//        page-break-before: auto;
+//        page-break-after: auto;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    
+    video,
+    #sideBar,
+    #appfooter {
+        display: none;
+    }
+    a::after{
+      font-style: italic;
+      font-size:.8em;
+      content: " (" attr(href) ") ";
+   }
+}`
+//loadscss(printSlideStyle,"printSlideStyle")
 
 window.addEventListener("contextmenu",(e)=>{
 e.preventDefault() 
