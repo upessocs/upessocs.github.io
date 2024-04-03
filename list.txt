@@ -1,5 +1,6 @@
 ./
-./Demo
-./.github
+./.Demo
 ./.git
+./.github
+./Lectures
 ./README.md

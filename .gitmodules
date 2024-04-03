@@ -1,0 +1,3 @@
+[submodule "Lectures"]
+	path = Lectures
+	url = git@github.com:upessocs/Lectures.git
