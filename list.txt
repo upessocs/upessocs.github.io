@@ -3,4 +3,7 @@
 ./.git
 ./.github
 ./Lectures
+./node_modules
 ./README.md
+./FULL STACK B1 B2.pdf
+./CC FullStack Attendance below.xlsx

@@ -398,7 +398,7 @@ a {
 
 
 
-.pdfLinks {
+.csvLinks.xlsxLinks,.pdfLinks {
 
     cursor: pointer;
     position: relative;
@@ -434,13 +434,17 @@ a {
         position: absolute;
         bottom:5px;
         right:5px;
-        content:"PDF";
+        
         background-color: hsl(var(--hueAscent), 81%, 21%);
         padding:5px;
         border-radius: 4px;
         font-weight: 900;
     }
 }
+
+.pdfLinks::after{content:"PDF";}
+.xlsxLinks::after{content:"XLSX";}
+.csvLinks::after{content:"CSV";}
 
 .button {
     display: inline-block;
