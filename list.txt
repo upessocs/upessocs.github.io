@@ -3,5 +3,3 @@
 ./.git
 ./.github
 ./Lectures
-./node_modules
-./README.md
