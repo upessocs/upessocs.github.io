@@ -527,16 +527,18 @@ var pdfdialogscss=`
 
 
 .pdfdialog{
-  width:80%;
-  margin:auto;
-  min-height: 60%;
-  border-radius: 2em;
-  border:1px solid var(--ascentColor);
-  background-color: hsla(var(--hue),var(--sat),var(--light),.3);
-  margin:2em 5em;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
+   position: absolute;
+   top:10%;
+   left:10%;
+   width:80%;
+   min-height: 60%;
+   border-radius: 2em;
+   border:1px solid var(--ascentColor);
+   background-color: hsla(var(--hue),var(--sat),var(--light),.3);
+   display: flex;
+   flex-direction: column;
+   overflow: auto;
+   box-shadow: 2px 5px 15px gray;
   
 
   
