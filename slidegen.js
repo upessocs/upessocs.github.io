@@ -539,7 +539,7 @@ var pdfdialogscss=`
    flex-direction: column;
    overflow: auto;
    box-shadow: 2px 5px 15px gray;
-  
+   backdrop-filter:blur(4px);
 
   
   .download {
