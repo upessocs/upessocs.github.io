@@ -476,21 +476,8 @@ table {
     z-index: 1000;
 }
 
-.pdfdialog {
-    width: 100vw;
-    height: 80vh;
-    margin: 4em auto;
-    padding: 2em;
-    border: 1px solid white;
-    border-radius: 1em;
-    backdrop-filter: blur(10px) brightness(50%);
 
-    object {
-        padding: 1em;
-        display: block;
-        margin: 0 auto;
-    }
-}
+
 
 .cross {
     position: absolute;
@@ -522,6 +509,8 @@ table {
     }
 }
 
+
+
 .MathJax {
     padding: 2px 5px;
     cursor: pointer;
@@ -531,6 +520,82 @@ table {
 
 `;
 
+
+
+
+var pdfdialogscss=`
+
+
+.pdfdialog{
+   position: absolute;
+   top:10%;
+   left:10%;
+   width:80%;
+   min-height: 60%;
+   border-radius: 2em;
+   border:1px solid var(--ascentColor);
+   background-color: hsla(var(--hue),var(--sat),var(--light),.3);
+   display: flex;
+   flex-direction: column;
+   overflow: auto;
+   box-shadow: 2px 5px 15px gray;
+   backdrop-filter:blur(4px);
+
+  
+  .download {
+    max-width: 15em;
+    padding:1em;
+    margin: 2em 0;
+    display:flex;
+    align-self:center;
+    
+  }
+  
+  .mainpdf{
+    max-height: 100%;
+    min-height:40vh;
+  }
+  
+    &:modal{    
+    backdrop-filter: blur(10px);
+    box-shadow: 1px 1px 1em white;
+  }
+  
+
+  .closedialog{
+    position: absolute;
+    top:1em;
+    right:1em;
+    transform: translateY(50%) rotate(45deg); 
+    padding:2em;
+    cursor:pointer;
+    &:after{
+      
+      content:"";
+      position: absolute;
+      top:0;
+      left:0;
+      background-color: white;
+      width:1.5em;
+      height: 2px; 
+      transform: translateY(50%) rotate(90deg); 
+    }
+
+    &:before{
+      content:"";
+      position: absolute;
+      top:0;
+      left:0;
+      background-color: white;
+      width:1.5em;
+      height: 2px; 
+   
+  }
+}
+  
+  
+}
+`
 //loadscss(slideScss)
 
 function openFile() {
@@ -543,7 +608,7 @@ function openFile() {
     parseSlide(fileUrl, mathjaxHljsCopyIcon);
   }
   if (fileType == "application/x-ipynb+json" || ext == "ipynb") {
-    parseNotebook(fileUrl);
+    parseNotebook(fileUrl,mathjaxHljsCopyIcon);
   }
   // updateFiledropEventListeners()
 }
@@ -902,12 +967,9 @@ function generateView() {
       parseSlide(router.view, mathjaxHljsCopyIcon);
     },
     ipynb: () => {
-      parseNotebook(router.view);
+      parseNotebook(router.view,mathjaxHljsCopyIcon);
     },
     pdf: () => {
-      showPDF(router.view);
-    },
-    xlsx: () => {
       showPDF(router.view);
     },
   };
@@ -937,6 +999,13 @@ function downloadURL(
   append(downloadpdf,"",'o');
   // log("downloaded")
 }
+
+
+
+
+
+
+
 
 
 async function filedetect() {
@@ -1082,6 +1151,7 @@ function parselist(
           !link.includes(".ipynb") &&
           !link.includes(".pdf") &&
           !link.includes(".csv") &&
+          !link.includes(".csv") &&
           !link.includes(".xlsx")
         ) {
           var linkname = link
@@ -1165,25 +1235,32 @@ function parselist(
         }
 
 
-        //for xlsx files
-        if (ext == "xlsx") {
-          // log("xlsx")
-          var linkname = link
-            .replaceAll("./", "")
-            .replaceAll("/", " / ")
-            .replaceAll("-", " ")
-            .replaceAll(".xlsx", "")
-            .replaceAll("_", " ");
-          if (link.length > 0 && link != "./") {
-            append(
-              directoryGrid,
-              gen(a, `${url}`, linkname, "pdfLinks,xlsxLinks", {
-                onclick: `downloadURL(\`${url}\`)`,
-                tabindex: 10,
-              })
-            );
-          }
-        }
+
+
+
+                //for xlsx files
+                if (ext == "xlsx") {
+                  // log("xlsx")
+                  var linkname = link
+                    .replaceAll("./", "")
+                    .replaceAll("/", " / ")
+                    .replaceAll("-", " ")
+                    .replaceAll(".xlsx", "")
+                    .replaceAll("_", " ");
+                  if (link.length > 0 && link != "./") {
+                    append(
+                      directoryGrid,
+                      gen(a, `${url}`, linkname, "pdfLinks,xlsxLinks", {
+                        onclick: `downloadURL(\`${url}\`)`,
+                        tabindex: 10,
+                      })
+                    );
+                  }
+                }
+
+
+
+                
 
           //for csv files
           if (ext == "csv") {
@@ -1663,7 +1740,7 @@ function parseNotebook(link, callback) {
 
   convertLocalLinks();
   updateFiledropEventListeners();
-
+  mathjaxHljsCopyIcon();
 }
 
 function closeparent(e) {
@@ -1677,29 +1754,44 @@ function parsePdf(link) {
   // log(link)
 
   // append(`main`, "", "over")
-  append(`#main`, gen(dialog, "pdfdialog", "", "pdfdialog active"));
+  append(`#main`, gen(dialog, "pdfdialog", "", "pdfdialog active modal"));
+  append(pdfdialog,"","o")
   append(pdfdialog, gen(a, "", "Download PDF", "download button", link));
   append(
     pdfdialog,
     gen("object", "mainpdf", "", "mainpdf", {
-      width: "80%",
-      height: "80vh",
+      // width: "80%",
+      // height: "80vh",
       data: link,
       type: "application/pdf",
     })
   );
-  pdfdialog.classList.add("showdialog");
+  // pdfdialog.classList.add("showdialog");
+  // pdfdialog.showModal();
+  loadscss(pdfdialogscss,"pdfdialogscss");
   pdfdialog.showModal();
-  pdfdialog.addEventListener("blur", () => {
-    log(blur);
-    pdfdialog.classList.remove("showdialog");
-    pdfdialog.close();
+  grab(".pdfdialog")[0].addEventListener('click', (event) => event.stopPropagation());
+
+  grab("#main")[0].addEventListener('click', () => {
+    grab(".pdfdialog")[0].close()
+    // log("click")
   });
+  
+
+
+  // pdfdialog.addEventListener("blur", () => {
+  //   append(".pdfdialog","","o")
+  //   // pdfdialog.classList.remove("showdialog");
+  //   pdfdialog.close();
+  //   log("blur")
+  //   append(pdfdialog,"","r")
+  // });
+
 
   append(
     pdfdialog,
     gen(span, "closedialog", "", "closedialog cross", {
-      onclick: "closeparent(this)",
+      onclick: "closeparent(this)", title:"close pdf"
     })
   );
 }
