@@ -2,4 +2,5 @@
 ./.Demo
 ./.git
 ./.github
+./CC AC CCVT Sem7
 ./Lectures
