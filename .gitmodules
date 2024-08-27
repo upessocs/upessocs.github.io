@@ -1,3 +1,6 @@
 [submodule "Lectures"]
 	path = Lectures
 	url = git@github.com:upessocs/Lectures.git
+[submodule "CC_AC_CCVT_Sem7"]
+	path = CC_AC_CCVT_Sem7
+	url = git@github.com:upessocs/CC_AC_CCVT_Sem7.git
