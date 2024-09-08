@@ -286,6 +286,7 @@ a {
 
     &:after {
         content: "";
+        content:attr(data-ext);
         width: 5em;
         height: 5em;
         border-radius: 5px;
@@ -432,19 +433,25 @@ a {
 
     &:after {
         position: absolute;
-        bottom:5px;
+        top:5px;
         right:5px;
-        content:"PDF";
+        content:attr(data-ext);
         background-color: hsl(var(--hueAscent), 81%, 21%);
         padding:5px;
         border-radius: 4px;
         font-weight: 900;
+        font-style: italic;
     }
 }
 
 .pdfLinks::after{content:"PDF";}
-.xlsxLinks::after{content:"XLSX";}
-.csvLinks::after{content:"CSV";}
+.xlsxLinks::after{content:attr(data-ext);}
+.csvLinks::after{content:attr(data-ext);}
+.docxLinks::after{content:attr(data-ext);}
+.pptxLinks::after{content:attr(data-ext);}
+.odtLinks::after{content:attr(data-ext);}
+.odsLinks::after{content:attr(data-ext);}
+.odpLinks::after{content:attr(data-ext);}
 
 .button {
     display: inline-block;

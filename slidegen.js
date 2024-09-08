@@ -1,4 +1,4 @@
-window.DEBUT = true;
+window.DEBUG= true;
 window.$ = GeneratorJs();
 window.$$ = GeneratorWebHelper();
 $.init();
@@ -1151,8 +1151,12 @@ function parselist(
           !link.includes(".ipynb") &&
           !link.includes(".pdf") &&
           !link.includes(".csv") &&
-          !link.includes(".csv") &&
-          !link.includes(".xlsx")
+          !link.includes(".docx") &&
+          !link.includes(".pptx") &&
+          !link.includes(".xlsx") &&
+          !link.includes(".odt") &&
+          !link.includes(".odp") &&
+          !link.includes(".ods")
         ) {
           var linkname = link
             .replaceAll("./", "")
@@ -1236,23 +1240,25 @@ function parselist(
 
 
 
+          var downloadableFilesExtensions = "docx,xlsx,pptx,odt,ods,odp"
 
-
-                //for xlsx files
-                if (ext == "xlsx") {
+                //for downloadableFilesExtensions  files
+                if (downloadableFilesExtensions.includes(ext)) {
                   // log("xlsx")
                   var linkname = link
                     .replaceAll("./", "")
                     .replaceAll("/", " / ")
                     .replaceAll("-", " ")
-                    .replaceAll(".xlsx", "")
+                    .replaceAll(`.${ext}`, "")
                     .replaceAll("_", " ");
                   if (link.length > 0 && link != "./") {
                     append(
                       directoryGrid,
-                      gen(a, `${url}`, linkname, "pdfLinks,xlsxLinks", {
+                      // gen(a, `${url}`, linkname, "pdfLinks,xlsxLinks", {
+                        gen(a, `${url}`, linkname, "pdfLinks,xlsxLinks", {"data-ext":ext,
                         onclick: `downloadURL(\`${url}\`)`,
                         tabindex: 10,
+                        title:`download ${ext}`
                       })
                     );
                   }
@@ -1992,7 +1998,11 @@ padding:.5em;
 }`
 //loadscss(printSlideStyle,"printSlideStyle")
 
+
+//Disable Right Click
+if(!DEBUG){
 window.addEventListener("contextmenu",(e)=>{
 e.preventDefault() 
 e.stopImmediatePropagation()
 })
+}
