@@ -1614,9 +1614,9 @@ function parseNotebook(link, callback) {
             append(
               blockroot,
               gen(
-                pre,
+                div,
                 `output${count}`,
-                gen(code, "", `Out [${count}] :`, "execution_count"),
+                gen(span, "", `Out [${count}] :`, "execution_count"),
                 `output block execution_count,${status}`
               )
             );
@@ -1630,7 +1630,7 @@ function parseNotebook(link, callback) {
                 // append(`#output${count}`, gen(pre, "", text, `output ${output_type}`))
                 append(
                   `#output${count}`,
-                  gen("samp", "", text, `samp ${output_type}`)
+                  gen("code", "", text, `${output_type}`)
                 );
               }
 
@@ -1679,7 +1679,7 @@ function parseNotebook(link, callback) {
                     `#output${count}`,
 
 
-                    gen("samp", "", text, `samp ${output_type}`)
+                    gen("code", "", text, ` ${output_type}`)
                   );
                 }
               }
