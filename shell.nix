@@ -4,10 +4,10 @@ let
   message = "Lets Start Development";
 in 
 pkgs.mkShellNoCC {
-  buildInputs = with pkgs; [ nodejs_21 ];
+  buildInputs = with pkgs; [ nodejs ];
 
   packages = with pkgs; [
-    nodejs_21
+    nodejs
     nodePackages.browser-sync 
     nodePackages.nodemon 
     nodePackages.parcel
@@ -20,6 +20,6 @@ pkgs.mkShellNoCC {
 
   shellHook = ''
     cowsay ${message}
-    npm run dev & echo "y" | codium & firefox localhost:3000
+    npm run dev & echo "y" | codium . & firefox localhost:3000
     '';
 }

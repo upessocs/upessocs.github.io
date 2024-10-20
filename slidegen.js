@@ -1190,6 +1190,7 @@ function parselist(
             append(
               directoryGrid,
               gen(a, `${url}`, linkname, "slideLinks", {
+                "data-ext":ext,
                 "data-file": file,
                 onclick: `appendfile(this)`,
                 tabindex: 10,
@@ -1211,6 +1212,7 @@ function parselist(
             append(
               directoryGrid,
               gen(a, `${url}`, linkname, "slideLinks,notebookLinks", {
+                "data-ext":ext,
                 "data-file": file,
                 onclick: `appendfile(this)`,
                 tabindex: 10,
@@ -1612,9 +1614,9 @@ function parseNotebook(link, callback) {
             append(
               blockroot,
               gen(
-                div,
+                pre,
                 `output${count}`,
-                gen(span, "", `Out [${count}] :`, "execution_count"),
+                gen(code, "", `Out [${count}] :`, "execution_count"),
                 `output block execution_count,${status}`
               )
             );
