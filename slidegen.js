@@ -1564,7 +1564,7 @@ function parseNotebook(link, callback) {
     append(sideBar, gen(div, "slidenav", gen(h3, "", "Navigator")));
     append(slidenav, gen(ul, "slidenavlist", "", "slidenavlist"));
 
-    var PrintFileName = link.split("/").pop().replaceAll(".ipynb", "");
+    var PrintFileName = link.split("/").pop().replaceAll(".ipynb", "").replaceAll("%20"," ");
     var nbmd = ``;
 
     append(
