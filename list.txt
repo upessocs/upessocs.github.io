@@ -4,3 +4,4 @@
 ./.github
 ./CC_AC_CCVT_Sem7
 ./Lectures
+./ResultPreview
