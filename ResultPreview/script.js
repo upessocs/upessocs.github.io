@@ -1,4 +1,6 @@
-const host = `https://dell-i7.tail9f300.ts.net`
+const host = `https://upes-win-pg.tail9f300.ts.net`
+
+// const host = `https://dell-i7.tail9f300.ts.net`
 const apiurl = `${host}/api/marks/`
 
 
