@@ -24,7 +24,7 @@ subjectlist.forEach((s)=>{
 
 append(marksmain,gen(span,"","Enter sapid  ",""))
 append(marksmain,gen(input,"sapid","",""))
-append(marksmain,gen(button,"showmarks","Show Marks","",{"onclick":"getandshowmarks()"}))
+append(marksmain,gen(button,"showmarks","Show Marks","",{"onclick":"getandshowmarks()","tabindex":1}))
 
 
 setTimeout(() => {
@@ -72,7 +72,7 @@ async function getandshowmarks(){
 
 
 
-    append(marksmain,gen(button,"reloadbtn","Reload","",{"onclick":"reload()"}))
+    append(marksmain,gen(button,"reloadbtn","Reload","",{"onclick":"reload()","tabindex":1}))
     }
 
 
@@ -117,6 +117,20 @@ var marksscss = `
 display:grid;
 grid-gap:1em;
 grid-template-columns:200px 1fr;
+
+
+
+
+  padding:2em 6em;
+  border-radius: 2em;
+  background-color: hsla(var(--hue),30%,20%,.6);
+  backdrop-filter: blur(2px);
+  box-shadow: 0px 0px 20px hsla(0,0%,50%,.3);
+    &:hover{
+      backdrop-filter: blur(6px);
+      box-shadow: 0px 0px 20px hsla(0,0%,50%,.4);
+      
+  }
 
 
 }
