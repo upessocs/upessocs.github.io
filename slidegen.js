@@ -1021,10 +1021,10 @@ function downloadURL(
   fileListUrl = window.location.origin + window.location.pathname + "list.txt",
   target = "#main"
 ) {
-  log(fileListUrl)
+  // log(fileListUrl)
   var f=fileListUrl.split("/")
   var FileName =f[f.length-1];
-  log(f[-1])
+  // log(f[-1])
   append(main,gen(a,"downloadpdf","Download " + FileName,"folderSlide pdf",{href:fileListUrl,target:"_blank",download:FileName}))
   grab(downloadpdf).click()
   append(downloadpdf,"",'o');
@@ -1127,7 +1127,7 @@ function paginationUpdate(loc = "") {
       // append("#location", gen(a, '', l, 'pathNavigator', root + path, { "onclick": "updateOnHashChange()" }))
       append(
         "#location",
-        gen(a, "", l, "pathNavigator", {
+        gen(a, "", l.replaceAll("%20"," "), "pathNavigator", {
           "data-path": root + path,
           onclick: "changepath(this)",
           tabindex: 20,

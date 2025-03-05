@@ -1,7 +1,6 @@
 ./
 ./.Demo
 ./.git
-./.github
-./CC_AC_CCVT_Sem7
+./CC_AC_CCVT_Sem8
 ./Lectures
 ./ResultPreview
