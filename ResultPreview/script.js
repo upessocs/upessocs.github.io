@@ -1,6 +1,7 @@
-const host = `https://upes-win-pg.tail9f300.ts.net`
-
 // const host = `https://dell-i7.tail9f300.ts.net`
+// const host = `https://upes-win-pg.tail9f300.ts.net`
+const host = `https://prateekrajgautam-upesmarks.hf.space`
+
 const apiurl = `${host}/api/marks/`
 
 
@@ -20,6 +21,32 @@ subjectlist.forEach((s)=>{
     append(subject,gen(option,s,s))
 })
 
+async function checkserver(){
+    var url = `${host}/serverstatus`
+    var resp = await fetch(url)
+    if (resp.status == "200"){
+        console.log("Server is up")
+        var data = await resp.json()
+        console.log(data.subjects)
+        subjectlist = data.subjects
+        console.log(subjectlist)
+        append(subject,"","o")
+        subjectlist.forEach((s)=>{
+            append(subject,gen(option,s,s))
+        })
+    }
+    return true
+}
+
+var serverlive = checkserver()
+
+
+if (serverlive) {
+    console.log("Server is live")
+}
+else{
+    console.log("Server is not live")
+}
 
 
 append(marksmain,gen(span,"","Enter sapid  ",""))
