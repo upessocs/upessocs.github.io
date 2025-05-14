@@ -143,13 +143,13 @@ var marksscss = `
 #marksmain{
 display:grid;
 grid-gap:1em;
-grid-template-columns:200px 1fr;
+grid-template-columns: 1fr repeat(auto-fit,minmax(150px,1fr));
 
 
 
 
-  padding:2em 6em;
-  border-radius: 2em;
+  padding:1em 2em;
+  border-radius: 1em;
   background-color: hsla(var(--hue),30%,20%,.6);
   backdrop-filter: blur(2px);
   box-shadow: 0px 0px 20px hsla(0,0%,50%,.3);
@@ -157,6 +157,12 @@ grid-template-columns:200px 1fr;
       backdrop-filter: blur(6px);
       box-shadow: 0px 0px 20px hsla(0,0%,50%,.4);
       
+  }
+
+  span:nth-child(odd){
+   
+  font-size:1.2em;
+  font-weight:600;
   }
 
 
