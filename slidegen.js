@@ -1905,7 +1905,7 @@ function parsePdf(link) {
   );
 }
 
-$$.init();
+WebHelper().init();
 if (window.location.href.includes("Gallery")) {
   // log("gallery")
   setTimeout(() => {
