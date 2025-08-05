@@ -1,8 +1,8 @@
-window.DEBUT = true
-window.$ = GeneratorJs()
-window.$$ = GeneratorWebHelper()
-$.init()
-load("./script.js")
+// window.DEBUT = true
+// window.$ = GeneratorJs()
+// window.$$ = GeneratorWebHelper()
+// $.init()
+// load("./script.js")
 
 //STYLE
 var slideScss = `

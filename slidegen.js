@@ -1,9 +1,9 @@
-//slidegen
-window.DEBUG= true;
-window.$ = GeneratorJs();
-window.$$ = GeneratorWebHelper();
-$.init();
-load("./script.js");
+// //slidegen
+// window.DEBUG= true;
+// window.$ = GeneratorJs();
+// window.$$ = GeneratorWebHelper();
+// $.init();
+// load("./script.js");
 
 
 
@@ -20,7 +20,7 @@ var slideScss = `
     --sat: 55%;
     --hueAscent: 234;
     --lightAscent: 67%;
-    --fontFamily: "Roboto";
+    --fontFamily: "Exo Roboto";
     --blockCountColor: #fff;
     --fontScale: 1;
     --fontsize: 1.3rem;
