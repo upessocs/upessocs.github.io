@@ -1349,7 +1349,7 @@ function mathjaxHljsCopyIcon() {
       c.innerHTML = c.innerHTML.replaceAll("<br>", "\n");
     });
     hljs.highlightAll();
-    setTimeout(GeneratorWebHelper().addCopyIcon(), 1000);
+    setTimeout(WebHelper().addCopyIcon(), 1000);
     MathJax.typesetPromise();
   }, 2000);
 }
