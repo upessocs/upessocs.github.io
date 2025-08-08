@@ -5,7 +5,16 @@
 // $.init();
 // load("./script.js");
 
-
+const setSlidegenTitle = () =>{
+    setTimeout(()=>{
+        try{ 
+          document.title = grab("h1,h2,h3,h4,h5,h6,p")[0].innerHTML;
+          grab("title[0]").innerText = grab("h1,h2,h3,h4,h5,h6,p,span[0]").innerText;
+        }  
+        catch (e) {}
+        },1000
+    );
+}; 
 
 //STYLE
 var slideScss = `
@@ -799,11 +808,13 @@ const convertLocalLinks = () => {
   }, 2000);
 
 
-setTimeout(()=>{
-  try{ 
-      document.title = grab("h1,h2,h3,h4,h5,h6,p")[0].innerHTML;
-  }  catch (e) { }
-},1000)
+// setTimeout(()=>{
+//   try{ 
+//       document.title = grab("h1,h2,h3,h4,h5,h6,p")[0].innerHTML;
+//   }  catch (e) { }
+// },1000)
+
+setSlidegenTitle();
 };
 
 function loadBasicSkeleton(title = "Home") {
