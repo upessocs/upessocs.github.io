@@ -559,7 +559,7 @@ var pdfdialogscss=`
    top:10%;
    left:10%;
    width:80%;
-   min-height: 60%;
+   height: 80%;
    border-radius: 2em;
    border:1px solid var(--ascentColor);
    background-color: hsla(var(--hue),var(--sat),var(--light),.3);
@@ -580,8 +580,7 @@ var pdfdialogscss=`
   }
   
   .mainpdf{
-    max-height: 100%;
-    min-height:40vh;
+    height: 100%;  
   }
   
     &:modal{    
