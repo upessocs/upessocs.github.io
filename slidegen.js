@@ -1040,10 +1040,12 @@ function downloadURL(
   var f=fileListUrl.split("/")
   var FileName =f[f.length-1];
   // log(f[-1])
-  append(main,gen(a,"downloadpdf","Download " + FileName,"folderSlide pdf",{href:fileListUrl,target:"_blank",download:FileName}))
-  grab(downloadpdf).click()
-  append(downloadpdf,"",'o');
-  // log("downloaded")
+  append(main,gen(a,"tempdownload","Download " + FileName,"folderSlide pdf",{href:fileListUrl,target:"_blank",download:FileName}))
+  setTimeout(() => {
+    grab("#tempdownload[0]").click()
+    append("#tempdownload","",'o');
+  }, 1000);
+  
 }
 
 
