@@ -2134,11 +2134,11 @@ padding:.5em;
 
 
 //Disable Right Click
-if(!DEBUG){
-window.addEventListener("contextmenu",(e)=>{
-e.preventDefault() 
-e.stopImmediatePropagation()
-})
-}
+// if(!DEBUG){
+// window.addEventListener("contextmenu",(e)=>{
+// e.preventDefault() 
+// e.stopImmediatePropagation()
+// })
+// }
 console.info(`SlideGen version ${slidegenversion}\ Ready`);
 console.info(`SlideGen copyrights ${slidegenlicense}\ Ready`);
