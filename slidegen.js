@@ -5,6 +5,9 @@
 // $.init();
 // load("./script.js");
 
+const slidegenlicense = "copyrights Prateek Raj Gautam, soon to be released under Apache 2.0";
+const slidegenversion = `v1.0.1`;
+
 const setSlidegenTitle = () =>{
     setTimeout(()=>{
         try{ 
@@ -799,11 +802,27 @@ hashChannel.addEventListener("message", (e) => {
 const convertLocalLinks = () => {
   var router = new Router();
   setTimeout(() => {
-    document.body.innerHTML = document.body.innerHTML.replaceAll(
-      "./",
-      router.dirpath
-      // this.dir==="/"?this.root:this.root+this.dir
-    );
+    // document.body.innerHTML = document.body.innerHTML.replaceAll(
+    //   "./",
+    //   router.dirpath
+    // );
+    
+    //replace selectively only in a tag href script src, picture image or video
+    "a,script,picture,image,video,object".split(",").forEach(tagname => {
+      grab(tagname).forEach(a => {
+        try {
+          a.href = a.href.replaceAll("./",router.dirpath)
+        } catch(e){}
+        try{
+        a.src = a.src.replaceAll("./",router.dirpath)
+        }catch(e){}
+        try{
+        a.source = a.source.replaceAll("./",router.dirpath)
+        }catch(e){}
+      })
+      
+    })
+
   }, 2000);
 
 
@@ -2121,3 +2140,5 @@ e.preventDefault()
 e.stopImmediatePropagation()
 })
 }
+console.info(`SlideGen version ${slidegenversion}\ Ready`);
+console.info(`SlideGen copyrights ${slidegenlicense}\ Ready`);
