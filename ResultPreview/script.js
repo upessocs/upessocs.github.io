@@ -156,7 +156,7 @@ async function getandshowmarks() {
         append(marksmain, gen(button, "reloadbtn", "Reload", "", { "onclick": "reload()" }))
     }
 
-    return data
+    return dummydata
 }
 
 var marksscss = `
