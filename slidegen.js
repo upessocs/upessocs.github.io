@@ -933,12 +933,7 @@ class Router {
       this.filepath += this.file;
     }
 
-    var oldhash = window.location.hash;
-    if (oldhash != this.hash) {
-      window.location.hash = this.hash;
-    }
     window.location.hash = this.hash;
-    // this.setdirpath(this.dir, this.file)
   }
 
   setdirpath(dir = "", file = "", url = window.location.origin) {
@@ -953,13 +948,11 @@ class Router {
 
   set setfile(file) {
     this.file = file;
-
     this.updateroute();
   }
 
   set setdir(dir) {
     this.dir = dir;
-
     this.updateroute();
   }
 }
@@ -1062,7 +1055,7 @@ function downloadURL(
   append(main,gen(a,"tempdownload","Download " + FileName,"folderSlide pdf",{href:fileListUrl,target:"_blank",download:FileName}))
   setTimeout(() => {
     grab("#tempdownload[0]").click()
-    append("#tempdownload","",'o');
+    append("#tempdownload","",'r');
   }, 1000);
   
 }
@@ -1130,16 +1123,35 @@ function printNotes(){
   loadscss(printNotesStyle,"printNotesStyle");
   window.print()
 }
+
+function appendBackButton() {
+  if (grab("#back").length != 0) {
+    append("#back", "", "replace");
+  }
+
+  append(
+    `#location`,
+    gen(a, "back", "Back", "pathNavigator", {
+      "data-path":router.dirpath,
+      "data-dir":router.dir,
+      onclick: "changepath(this)",
+      tabindex: 20,
+    })
+  );
+}
+
 function changepath(thispath) {
   // log(thispath.dataset.path)
-  var path = thispath.dataset.path;
+  // var path = thispath.dataset.path;
+  var dir = thispath.dataset.dir;
   var origin = window.location.origin;
-  pathname = path.replace(origin, "");
-  // log(pathname)
+  // pathname = path.replace(origin, "");
   var router = new Router();
-  router.setdir = pathname;
+  // log(dir)
+  router.setfile = "";
+  router.setdir = dir;
 
-  window.location.pathname = "/";
+  // window.location.pathname = "/";
 }
 
 function paginationUpdate(loc = "") {
@@ -1158,13 +1170,14 @@ function paginationUpdate(loc = "") {
   var printLocation = loc.replaceAll("https://", "").replaceAll("http://", "");
   printLocation.split("/").forEach((l) => {
     if (l.length > 0) {
+      l = l.replaceAll(/(\%20|\s)+/g," ")
       // log(l)
       path += l + "/";
-      // append("#location", gen(a, '', l, 'pathNavigator', root + path, { "onclick": "updateOnHashChange()" }))
       append(
         "#location",
         gen(a, "", l, "pathNavigator", {
           "data-path": root + path,
+          "data-dir":path,
           onclick: "changepath(this)",
           tabindex: 20,
         })
@@ -1395,7 +1408,7 @@ function parseCsv(link, callback) {
   loadscss(slideScss);
   getfile(link, (csv) => {
     if (grab("#back").length != 0) {
-      append("#back", "", "replace");
+      append("#back", "", "r");
     }
 
     append(
@@ -1472,21 +1485,26 @@ function parseCsv(link, callback) {
 
     append(`#listroot`,gen(table,"tablemain","","listbody"))
 
-    append(tablemain,gen("thead","tablehead",""))
-    append(tablemain,gen("tbody","tablebody",""))
-    console.log(csv)
+    append(`#tablemain`,gen("thead","tablehead",gen(tr,"","row")))
+    append(`#tablemain`,gen("tbody","tablebody",gen(tr,"","row2")))
+    // log(csv)
 
     var csvRows=csv.split("\n")
     for (var i = 0; i<csvRows.length; i++){
       var rowData=csvRows[i]
       // console.log(rowData)
       if (i==0) 
-        {append(`#tablehead`,gen("tr",`tablerow${i}`))} 
+        {
+          append("#tablehead",genp(tr,`tablerow${i}`))
+
+        } 
       else
-         {append(`#tablebody`,gen("tr",`tablerow${i}`))}
+        {
+          append("#tablebody",genp(tr,`tablerow${i}`))
+        }
       var colData = rowData.split(",")
       for (var j = 0; j<colData.length; j++){
-        append(`#tablerow${i}`,gen(td,`tablecol${i}${j}`,colData[j]))
+        append(`#tablerow${i}`,genp(td,`tablecol${i}${j}`,colData[j]))
       }
     }
 
@@ -1580,18 +1598,19 @@ function parseSlide(link, callback) {
   console.info("parseslide");
   loadscss(slideScss);
   getfile(link, (md) => {
-    if (grab("#back").length != 0) {
-      append("#back", "", "replace");
-    }
+    appendBackButton()
+    // if (grab("#back").length != 0) {
+    //   append("#back", "", "replace");
+    // }
 
-    append(
-      `#location`,
-      gen(a, "back", "Back", "pathNavigator", {
-        "data-file": "",
-        onclick: "appendfile(this)",
-        tabindex: 20,
-      })
-    );
+    // append(
+    //   `#location`,
+    //   gen(a, "back", "Back", "pathNavigator", {
+    //     "data-file": "",
+    //     onclick: "appendfile(this)",
+    //     tabindex: 20,
+    //   })
+    // );
 
     append(`main`, "", "over");
     updateFiledropEventListeners();
@@ -1608,7 +1627,7 @@ function parseSlide(link, callback) {
     for (var i = 0; i < html.length; i++) {
       var h = html[i];
       if (h.length > 0) {
-        var x = parsemd(h, (H) => {
+        var x = parsemd(h, (H,S="") => {
           append(slideroot, gen(section, `slide${i}`, H, "slide"));
           // if (i != 0 && i != html.length) {
           if (i != 0) {
@@ -1619,6 +1638,9 @@ function parseSlide(link, callback) {
                 title: "Re Render Math",
               })
             );
+          }
+          if(S!=""){
+            append("body",gen(script,"",S,"parsedmdScript"))
           }
           append(
             slidenavlist,
@@ -1667,17 +1689,18 @@ function parseSlide(link, callback) {
 function parseNotebook(link, callback) {
   loadscss(slideScss);
   getfile(link, (nb) => {
-    if (grab("#back").length != 0) {
-      append("#back", "", "replace");
-    }
-    append(
-      `#location`,
-      gen(a, "back", "Back", "pathNavigator", {
-        "data-file": "",
-        onclick: "appendfile(this)",
-        tabindex: 20,
-      })
-    );
+    appendBackButton()
+    // if (grab("#back").length != 0) {
+    //   append("#back", "", "replace");
+    // }
+    // append(
+    //   `#location`,
+    //   gen(a, "back", "Back", "pathNavigator", {
+    //     "data-file": "",
+    //     onclick: "appendfile(this)",
+    //     tabindex: 20,
+    //   })
+    // );
     if (grab("#main").length != 0) {
       append("#main", "", "over");
 
