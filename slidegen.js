@@ -1131,7 +1131,7 @@ function appendBackButton() {
 
   append(
     `#location`,
-    gen(a, "back", "Back", "pathNavigator", {
+    gen(span, "back", "Back", "pathNavigator", {
       "data-path":router.dirpath,
       "data-dir":router.dir,
       onclick: "changepath(this)",
@@ -1175,7 +1175,7 @@ function paginationUpdate(loc = "") {
       path += l + "/";
       append(
         "#location",
-        gen(a, "", l, "pathNavigator", {
+        gen(span, "", l, "pathNavigator", {
           "data-path": root + path,
           "data-dir":path,
           onclick: "changepath(this)",
@@ -1413,7 +1413,7 @@ function parseCsv(link, callback) {
 
     append(
       `#location`,
-      gen(a, "back", "Back", "pathNavigator", {
+      gen(span, "back", "Back", "pathNavigator", {
         "data-file": "",
         onclick: "appendfile(this)",
         tabindex: 20,
@@ -1599,18 +1599,6 @@ function parseSlide(link, callback) {
   loadscss(slideScss);
   getfile(link, (md) => {
     appendBackButton()
-    // if (grab("#back").length != 0) {
-    //   append("#back", "", "replace");
-    // }
-
-    // append(
-    //   `#location`,
-    //   gen(a, "back", "Back", "pathNavigator", {
-    //     "data-file": "",
-    //     onclick: "appendfile(this)",
-    //     tabindex: 20,
-    //   })
-    // );
 
     append(`main`, "", "over");
     updateFiledropEventListeners();
@@ -1690,17 +1678,6 @@ function parseNotebook(link, callback) {
   loadscss(slideScss);
   getfile(link, (nb) => {
     appendBackButton()
-    // if (grab("#back").length != 0) {
-    //   append("#back", "", "replace");
-    // }
-    // append(
-    //   `#location`,
-    //   gen(a, "back", "Back", "pathNavigator", {
-    //     "data-file": "",
-    //     onclick: "appendfile(this)",
-    //     tabindex: 20,
-    //   })
-    // );
     if (grab("#main").length != 0) {
       append("#main", "", "over");
 
