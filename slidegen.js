@@ -331,7 +331,7 @@ table {
                 padding-inline:.5em;
                 cursor: hand;
 
-                a {
+                a,.slideNavLink {
                     background-color: hsl(var(--hue), 50%, 95%);
                     color: var(--accentColor, hsl(var(--hueAscent), 80%, 20%));
                     border-radius: 5px;
@@ -1647,7 +1647,7 @@ function parseSlide(link, callback) {
             gen(
               li,
               "",
-              gen(a, "", `Slide ${i + 1}`, "slideNavLink", {
+              gen(span, "", `Slide ${i + 1}`, "slideNavLink", {
                 onclick: `slide${i}.scrollIntoView()`,
               })
             )
