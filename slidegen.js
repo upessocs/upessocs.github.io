@@ -6,7 +6,7 @@
 // load("./script.js");
 
 const slidegenlicense = "copyrights Prateek Raj Gautam, soon to be released under Apache 2.0";
-const slidegenversion = `v1.0.1`;
+const slidegenversion = `v1.0.3`;
 
 const setSlidegenTitle = () =>{
     setTimeout(()=>{
@@ -1399,7 +1399,25 @@ function mathjaxHljsCopyIcon() {
 }
 
 
+function filtertable(){
+  var searchInput = grab(`#searchcsv[0]`).value;
+  var rows = grab(`tbody .tablerow`);
+  if (searchInput.length == 0){
+    //show all rows
+    rows.forEach(row=>{
+      row.classList.add("hide");
+    });
+  }
+  else{
+    rows.forEach(row=>{
+      row.classList.add("hide");
+      if (row.innerText.toLowerCase().includes(searchInput.toLowerCase())){
+        row.classList.remove("hide");
+      };
 
+    });
+  };
+};  
 
 function parseCsv(link, callback) {
   var filename=link.split("/")[link.split("/").length-1]
@@ -1454,9 +1472,7 @@ function parseCsv(link, callback) {
         outline:none;
       }
 
-      tr:has(td:empty){
-        display: none;
-      }
+
     }
     
     `
@@ -1464,10 +1480,11 @@ function parseCsv(link, callback) {
 
 
     
+    
     append(`main`, gen(div, "listroot","", "listroot"));
     append(`#listroot`,gen(h1,filename,filename))
     append(`#listroot`,gen(div,"listheader","","listheader"))
-    append(`#listheader`,gen(input,"searchcsv","search","search",{title:"search"}))
+    append(`#listheader`,gen(input,"searchcsv","search","search",{title:"search","onkeydown":"filtertable()"}))
     
     
     var searchElement=grab("#searchcsv")[0]
@@ -1482,11 +1499,13 @@ function parseCsv(link, callback) {
       document.addEventListener("keydown",keyPressHandler) 
     })
 
+    
+
 
     append(`#listroot`,gen(table,"tablemain","","listbody"))
 
-    append(`#tablemain`,gen("thead","tablehead",gen(tr,"","row")))
-    append(`#tablemain`,gen("tbody","tablebody",gen(tr,"","row2")))
+    append(`#tablemain`,gen("thead","tablehead"))
+    append(`#tablemain`,gen("tbody","tablebody"))
     // log(csv)
 
     var csvRows=csv.split("\n")
@@ -1495,16 +1514,16 @@ function parseCsv(link, callback) {
       // console.log(rowData)
       if (i==0) 
         {
-          append("#tablehead",genp(tr,`tablerow${i}`))
+          append("#tablehead",gen(tr,`tablerow${i}`,"","tablerow"))
 
         } 
       else
         {
-          append("#tablebody",genp(tr,`tablerow${i}`))
+          append("#tablebody",gen(tr,`tablerow${i}`,"","tablerow"))
         }
       var colData = rowData.split(",")
       for (var j = 0; j<colData.length; j++){
-        append(`#tablerow${i}`,genp(td,`tablecol${i}${j}`,colData[j]))
+        append(`#tablerow${i}`,gen(td,`tablecol${i}${j}`,colData[j]))
       }
     }
 
