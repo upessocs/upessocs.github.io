@@ -1615,6 +1615,9 @@ function handleSidebarSearch(){
 
 function parseSlide(link, callback) {
   console.info("parseslide");
+  // clear/reset dynamicScript
+  var dynamicScript = gen(script,"dynamicScript",S,"dynamicScript");
+  append(`#dynamicScript`,"","r")
   loadscss(slideScss);
   getfile(link, (md) => {
     appendBackButton()
@@ -1647,7 +1650,13 @@ function parseSlide(link, callback) {
             );
           }
           if(S!=""){
-            append("body",gen(script,"",S,"parsedmdScript"))
+            // append("body",gen(script,"",S,"parsedmdScript"));
+              //reset dynamicScript call at starting of parsemd
+              // append(`#dynamicScript`,"","r")
+              
+              
+              dynamicScript.textContent + = S;
+              append("body",dynamicScript);
           }
           append(
             slidenavlist,
@@ -2161,3 +2170,4 @@ padding:.5em;
 // }
 console.info(`SlideGen version ${slidegenversion}\ Ready`);
 console.info(`SlideGen copyrights ${slidegenlicense}\ Ready`);
+
