@@ -1616,8 +1616,9 @@ function handleSidebarSearch(){
 function parseSlide(link, callback) {
   console.info("parseslide");
   // clear/reset dynamicScript
-  var dynamicScript = gen(script,"dynamicScript",S,"dynamicScript");
   append(`#dynamicScript`,"","r")
+  var dynamicScript
+  
   loadscss(slideScss);
   getfile(link, (md) => {
     appendBackButton()
@@ -1654,8 +1655,8 @@ function parseSlide(link, callback) {
               //reset dynamicScript call at starting of parsemd
               // append(`#dynamicScript`,"","r")
               
-              
-              dynamicScript.textContent + = S;
+              dynamicScript = gen(script,"dynamicScript",S,"dynamicScript");
+              dynamicScript.textContent += S;
               append("body",dynamicScript);
           }
           append(
