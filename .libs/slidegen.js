@@ -1,12 +1,6 @@
-// //slidegen
-// window.DEBUG= true;
-// window.$ = GeneratorJs();
-// window.$$ = GeneratorWebHelper();
-// $.init();
-// load("./script.js");
 
-const slidegenlicense = "copyrights Prateek Raj Gautam, soon to be released under Apache 2.0";
-const slidegenversion = `v1.0.3`;
+const slidegenlicense = "copyrights mGeek.in & Prateek Raj Gautam, soon to be released under Apache 2.0";
+const slidegenversion = `v1.0.4`;
 
 const setSlidegenTitle = () =>{
     setTimeout(()=>{
@@ -625,7 +619,7 @@ var pdfdialogscss=`
   
   
 }
-`
+`;
 //loadscss(slideScss)
 
 function openFile() {
@@ -641,7 +635,7 @@ function openFile() {
     parseNotebook(fileUrl,mathjaxHljsCopyIcon);
   }
   // updateFiledropEventListeners()
-}
+};
 
 function cloneView() {
   var url = window.location.href;
@@ -651,9 +645,9 @@ function cloneView() {
     href: window.location.href,
     target: "_blank",
   }).click();
-}
+};
 
-function toggleHints() { }
+function toggleHints() { };
 
 // Fullscreen
 function toggleFullscreen() {
@@ -669,7 +663,7 @@ function toggleFullscreen() {
       grab("h1")[0].innerHTML;
     // append(main, gen(div, "fullscreenTitle", titlestr), 'before')
   }
-}
+};
 
 document.addEventListener("dblclick", (e) => {
   if (document.activeElement.tagName.toLowerCase() === "input") {
@@ -705,7 +699,7 @@ function scrollAction(direction = "down", scrollState) {
     scrollState -= 1;
     grab(`#slideroot`)[0].scrollTop = scrollState * offsetHeight;
   }
-}
+};
 
 // Keyboard Control
 function keyPressHandler(e) {
@@ -775,7 +769,7 @@ function keyPressHandler(e) {
     grab("#open")[0].click();
   }
   e.stopPropagation();
-}
+};
 
 
 
@@ -821,16 +815,9 @@ const convertLocalLinks = () => {
         }catch(e){}
       })
       
-    })
+    });
 
   }, 2000);
-
-
-// setTimeout(()=>{
-//   try{ 
-//       document.title = grab("h1,h2,h3,h4,h5,h6,p")[0].innerHTML;
-//   }  catch (e) { }
-// },1000)
 
 setSlidegenTitle();
 };
@@ -846,7 +833,7 @@ function loadBasicSkeleton(title = "Home") {
   append(main, gen(div, "appmain", "", "appmain container"));
   append(app, gen(footer, "appfooter", "", "footer"));
   append(appmain, gen(section, "hero", "", "hero"));
-}
+};
 
 function dict2hash(dict) {
   var hash = "";
@@ -858,7 +845,7 @@ function dict2hash(dict) {
     }
   });
   return hash;
-}
+};
 
 function hash2dict(hash) {
   var dict = {};
@@ -871,7 +858,7 @@ function hash2dict(hash) {
       dict[keyval[0]] = keyval[1];
     });
   return dict;
-}
+};
 
 class Router {
   constructor() {
@@ -884,7 +871,7 @@ class Router {
 
     this.updateroute();
     return this.hash;
-  }
+  };
 
   readfromurl() {
     this.host = window.location.host;
@@ -892,7 +879,7 @@ class Router {
     this.pathname = window.location.pathname;
     this.root = this.protocol + this.host + this.pathname;
     this.origin = window.location.origin;
-  }
+  };
 
   readHash() {
     this.hash = window.location.hash;
@@ -913,7 +900,7 @@ class Router {
         this.hashObj[keyval[0]] = keyval[1];
       });
     this.setdirpath(this.dir, this.file);
-  }
+  };
 
   updateroute() {
     this.filepath = this.root;
@@ -934,7 +921,7 @@ class Router {
     }
 
     window.location.hash = this.hash;
-  }
+  };
 
   setdirpath(dir = "", file = "", url = window.location.origin) {
     // window.location.href = url
@@ -944,18 +931,18 @@ class Router {
   }
   get view() {
     return this.filepath;
-  }
+  };
 
   set setfile(file) {
     this.file = file;
     this.updateroute();
-  }
+  };
 
   set setdir(dir) {
     this.dir = dir;
     this.updateroute();
-  }
-}
+  };
+};
 const router = new Router();
 
 function footerButtons() {
@@ -999,7 +986,7 @@ function footerButtons() {
     gen(label, "openbtn", "Open", "button,openFile", { for: "open",
       title:"Open local markdown(.md) or interactive python notebook(.ipynb)", })
   );
-}
+};
 
 function generateView() {
   if (grab("#appmain").length != 0) {
@@ -1011,7 +998,7 @@ function generateView() {
   var file = router.file;
   if (file.length == 0) {
     router.setfile = "list.txt";
-  }
+  };
 
   var ext = file.split(".").pop();
   const route = {
@@ -1038,7 +1025,7 @@ function generateView() {
 
   // updateFiledropEventListeners()
 
-}
+};
 
 
 
@@ -1058,7 +1045,7 @@ function downloadURL(
     append("#tempdownload","",'r');
   }, 1000);
   
-}
+};
 
 
 
@@ -1081,7 +1068,7 @@ async function filedetect() {
     });
   });
   return presentfile;
-}
+};
 
 function updateOnHashChange() {
   window.removeEventListener("hashchange", updateOnHashChange);
@@ -1100,7 +1087,7 @@ function updateOnHashChange() {
 
   reloadPage();
   
-}
+};
 
 function reloadPage() {
   sessionStorage.clear();
@@ -1111,23 +1098,23 @@ function reloadPage() {
   window.scrollTo(0, 0);
   window.addEventListener("hashchange", updateOnHashChange);
   // convertLocalLinks()
-}
+};
 
 
 function printSlides(){
   loadscss(printSlideStyle,"printSlideStyle");
-  window.print()
-}
+  window.print();
+};
 
 function printNotes(){
   loadscss(printNotesStyle,"printNotesStyle");
-  window.print()
-}
+  window.print();
+};
 
 function appendBackButton() {
   if (grab("#back").length != 0) {
     append("#back", "", "replace");
-  }
+  };
 
   append(
     `#location`,
@@ -1138,7 +1125,7 @@ function appendBackButton() {
       tabindex: 20,
     })
   );
-}
+};
 
 function changepath(thispath) {
   // log(thispath.dataset.path)
@@ -1152,7 +1139,7 @@ function changepath(thispath) {
   router.setdir = dir;
 
   // window.location.pathname = "/";
-}
+};
 
 function paginationUpdate(loc = "") {
   // var router = new Router()
@@ -1160,7 +1147,7 @@ function paginationUpdate(loc = "") {
   loc = router.pathname + router.dir;
   if (grab("#location").length != 0) {
     append("#location", "", "replace");
-  }
+  };
 
   // try { append(`#location`, "", "replace") } catch { }
   append(`#header`, gen(nav, "location", ""));
@@ -1186,7 +1173,7 @@ function paginationUpdate(loc = "") {
     }
   });
   // generateView()
-}
+};
 
 loadBasicSkeleton();
 
@@ -1194,10 +1181,10 @@ function appendDir(e) {
   var newDir = router.dir + e.dataset.dir;
   newDir = newDir.replaceAll("//", "/").replaceAll("\\\\", "\\");
   router.setdirpath(newDir, "");
-}
+};
 function appendfile(e) {
   router.setdirpath(router.dir, e.dataset.file);
-}
+};
 
 function parselist(
   fileListUrl = window.location.origin + window.location.pathname + "list.txt",
@@ -1226,6 +1213,7 @@ function parselist(
         var ext = link.split(".").pop();
         // log(ext)
         if (
+          link.length > 3 &&
           link[2] != "." &&
           !link.includes(".md") &&
           !link.includes(".ipynb") &&
@@ -1255,7 +1243,7 @@ function parselist(
               })
             );
           }
-        }
+        };
 
         //for markdown files
         if (link[2] != "." && link.includes(".md")) {
@@ -1277,7 +1265,7 @@ function parselist(
               })
             );
           }
-        }
+        };
 
         //for notebook files
         if (link[2] != "." && link.includes(".ipynb")) {
@@ -1299,7 +1287,7 @@ function parselist(
               })
             );
           }
-        }
+        };
         //for pdf files
         if (ext == "pdf") {
           // log("pdf")
@@ -1318,7 +1306,7 @@ function parselist(
               })
             );
           }
-        }
+        };
 
 
 
@@ -1344,7 +1332,7 @@ function parselist(
                       })
                     );
                   }
-                }
+                };
 
 
 
@@ -1363,17 +1351,19 @@ function parselist(
               append(
                 directoryGrid,
                 gen(object, `${url}`, linkname, "csvLinks", {
+                  "data-ext":ext,
+                  "data-file": file,
                   onclick: `parseCsv(\`${url}\`)`,
                   tabindex: 10,
                 })
               );
             }
-          }
+          };
 
 
       });
   });
-}
+};
 
 function mathjaxHljsCopyIcon() {
   console.info("mathjaxHljsCopyIcon");
@@ -1396,7 +1386,7 @@ function mathjaxHljsCopyIcon() {
     setTimeout(WebHelper().addCopyIcon(), 1000);
     MathJax.typesetPromise();
   }, 2000);
-}
+};
 
 
 function filtertable(){
@@ -1427,7 +1417,7 @@ function parseCsv(link, callback) {
   getfile(link, (csv) => {
     if (grab("#back").length != 0) {
       append("#back", "", "r");
-    }
+    };
 
     append(
       `#location`,
@@ -1475,57 +1465,57 @@ function parseCsv(link, callback) {
 
     }
     
-    `
-    loadscss(listrootscss)
+    `;
+    loadscss(listrootscss);
 
 
     
     
     append(`main`, gen(div, "listroot","", "listroot"));
-    append(`#listroot`,gen(h1,filename,filename))
-    append(`#listroot`,gen(div,"listheader","","listheader"))
-    append(`#listheader`,gen(input,"searchcsv","search","search",{title:"search","onkeydown":"filtertable()"}))
+    append(`#listroot`,gen(h1,filename,filename));
+    append(`#listroot`,gen(div,"listheader","","listheader"));
+    append(`#listheader`,gen(input,"searchcsv","search","search",{title:"search","onkeydown":"filtertable()"}));
     
     
-    var searchElement=grab("#searchcsv")[0]
+    var searchElement=grab("#searchcsv[0]");
+
     searchElement.addEventListener('focus', (e)=> {
+      console.log("searchIn focus");
+      document.removeEventListener("keydown",keyPressHandler);
       
-      console.log("searchIn focus")
-      document.removeEventListener("keydown",keyPressHandler)
-      
-    })
+    });
 
     searchElement.addEventListener('focusout',e=>{
-      document.addEventListener("keydown",keyPressHandler) 
-    })
+      document.addEventListener("keydown",keyPressHandler) ;
+    });
 
     
 
 
-    append(`#listroot`,gen(table,"tablemain","","listbody"))
+    append(`#listroot`,gen("table","tablemain","","listbody"));
 
-    append(`#tablemain`,gen("thead","tablehead"))
-    append(`#tablemain`,gen("tbody","tablebody"))
+    append(`#tablemain`,gen("thead","tablehead"));
+    append(`#tablemain`,gen("tbody","tablebody"));
     // log(csv)
 
-    var csvRows=csv.split("\n")
+    var csvRows=csv.split(`\n`);
     for (var i = 0; i<csvRows.length; i++){
-      var rowData=csvRows[i]
+      var rowData=csvRows[i];
       // console.log(rowData)
       if (i==0) 
         {
-          append("#tablehead",gen(tr,`tablerow${i}`,"","tablerow"))
+          append("#tablehead",gen("tr",`tablerow${i}`,"","tablerow"));
 
         } 
       else
         {
-          append("#tablebody",gen(tr,`tablerow${i}`,"","tablerow"))
-        }
-      var colData = rowData.split(",")
+          append("#tablebody",gen("tr",`tablerow${i}`,"","tablerow"))
+        };
+      var colData = rowData.split(",");
       for (var j = 0; j<colData.length; j++){
-        append(`#tablerow${i}`,gen(td,`tablecol${i}${j}`,colData[j]))
-      }
-    }
+        append(`#tablerow${i}`,gen("td",`tablecol${i}${j}`,colData[j]));
+      };
+    };
 
 
 
@@ -1533,12 +1523,12 @@ function parseCsv(link, callback) {
     
  
     //navigator Search 
-    var searchElement=grab("#sideBarSearchInput")[0]
-    searchElement.addEventListener('focus', (e)=> {
+    var sidebarsearchElement=grab("#sideBarSearchInput[0]");
+    sidebarsearchElement.addEventListener('focus', (e)=> {
       // document.removeEventListener("keydown",keyPressHandler)
-      e.stopPropagation()
+      e.stopPropagation();
       
-    })
+    });
 
 
 
@@ -1549,9 +1539,9 @@ function parseCsv(link, callback) {
     if (callback) {
       console.info("callback");
       callback();
-    }
+    };
   });
-}
+};
 
 
 
@@ -1592,36 +1582,36 @@ function parseCsv(link, callback) {
 
 // hide sidebar links on search
 function handleSidebarSearch(){
-  var allSlides=grab(".slide")
-  var allSlidesNav=grab(".slideNavLink")
-  var searchTerm=grab("#sideBarSearchInput")[0].value
-  console.log(searchTerm)
+  var allSlides=grab(".slide");
+  var allSlidesNav=grab(".slideNavLink");
+  var searchTerm=grab("#sideBarSearchInput")[0].value;
+  console.log(searchTerm);
 
 
   for(var i=0;i<allSlides.length;i++){
-    allSlidesNav[i].parentElement.classList.add("hide")
-    var s=allSlides[i]
+    allSlidesNav[i].parentElement.classList.add("hide");
+    var s=allSlides[i];
     if (s.innerText.includes(searchTerm)){
-      allSlidesNav[i].parentElement.classList.remove("hide")
-    }
-  }
+      allSlidesNav[i].parentElement.classList.remove("hide");
+    };
+  };
 
   loadscss(`.hide{
     display: none !important;;
-  }`,"hide")
-}
+  }`,"hide");
+};
 
 
 
 function parseSlide(link, callback) {
   console.info("parseslide");
   // clear/reset dynamicScript
-  append(`#dynamicScript`,"","r")
-  var dynamicScript
+  append(`#dynamicScript`,"","r");
+  var dynamicScript;
   
   loadscss(slideScss);
   getfile(link, (md) => {
-    appendBackButton()
+    appendBackButton();
 
     append(`main`, "", "over");
     updateFiledropEventListeners();
@@ -1649,7 +1639,7 @@ function parseSlide(link, callback) {
                 title: "Re Render Math",
               })
             );
-          }
+          };
           if(S!=""){
             // append("body",gen(script,"",S,"parsedmdScript"));
               //reset dynamicScript call at starting of parsemd
@@ -1658,7 +1648,7 @@ function parseSlide(link, callback) {
               dynamicScript = gen(script,"dynamicScript",S,"dynamicScript");
               dynamicScript.textContent += S;
               append("body",dynamicScript);
-          }
+          };
           append(
             slidenavlist,
             gen(
@@ -1670,12 +1660,11 @@ function parseSlide(link, callback) {
             )
           );
         });
-      }
+      };
       //update sidebar with slide headings
-      var slideHeading=grab(".slide")[i].querySelectorAll("h1,h2,h3,h4,h5,h6,p")[0].innerText
-      grab(".slideNavLink")[i].innerHTML+=`: ${gens(p,"",slideHeading,"sideNavLinkSummary")}`
-
-    }
+      var slideHeading=grab(".slide")[i].querySelectorAll("h1,h2,h3,h4,h5,h6,p")[0].innerText;
+      grab(".slideNavLink")[i].innerHTML+=`: ${gens(p,"",slideHeading,"sideNavLinkSummary")}`;
+    };
     append(
       slidenavlist,
       gen(
@@ -1692,16 +1681,16 @@ function parseSlide(link, callback) {
     if (callback) {
       console.info("callback");
       callback();
-    }
+    };
   });
   
   setTimeout(() => {
-    PageNavSelf.updatePageNavUl()
-  },3000)
+    PageNavSelf.updatePageNavUl();
+  },3000);
 
 
 
-}
+};
 
 function parseNotebook(link, callback) {
   loadscss(slideScss);
@@ -1711,7 +1700,7 @@ function parseNotebook(link, callback) {
       append("#main", "", "over");
 
       updateFiledropEventListeners();
-    }
+    };
 
     append(main, gen(div, "blockroot", "", "blockroot"));
     append(blockroot, gen("aside", "sideBar", ""));
@@ -1740,7 +1729,7 @@ function parseNotebook(link, callback) {
             blockroot,
             gen(div, `Markdown${ecount}`, parsemd(md), "markdown block")
           );
-        }
+        };
         if (cell_type == "code") {
           var count = cell.execution_count;
 
@@ -1786,7 +1775,7 @@ function parseNotebook(link, callback) {
                   `#output${count}`,
                   gen("code", "", text, `${output_type}`)
                 );
-              }
+              };
 
               if (output_type == "display_data") {
                 var data = output.data;
@@ -1802,7 +1791,7 @@ function parseNotebook(link, callback) {
                     )
                   );
                   // append(`#output${count}`, gen(p, "", gen(code, "", text, `output ${output_type}`)))
-                }
+                };
 
                 if (data.hasOwnProperty("image/png")) {
                   var className = "";
@@ -1819,7 +1808,7 @@ function parseNotebook(link, callback) {
                     })
                   );
                 }
-              }
+              };
 
               if (
                 output_type == "execute_result" ||
@@ -1840,7 +1829,7 @@ function parseNotebook(link, callback) {
             });
           }
         }
-      }
+      };
     });
     // fill sidenav with data
     var noOfBlocks = grab(".block").length;
@@ -1863,7 +1852,7 @@ function parseNotebook(link, callback) {
           })
         )
       );
-    }
+    };
     // download source file
     var downloadFileName = `${link.split("/")[link.split("/").length - 2]}_${link.split("/")[link.split("/").length - 1]
       }`;
@@ -1906,15 +1895,15 @@ function parseNotebook(link, callback) {
 
   setTimeout(() => {
     PageNavSelf.updatePageNavUl()
-  },3000)
+  },3000);
 
 
     
-}
+};
 
 function closeparent(e) {
   append(e.parentElement, "", "replace");
-}
+};
 
 function parsePdf(link) {
   loadscss(slideScss);
@@ -1942,28 +1931,17 @@ function parsePdf(link) {
   grab(".pdfdialog")[0].addEventListener('click', (event) => event.stopPropagation());
 
   grab("#main")[0].addEventListener('click', () => {
-    grab(".pdfdialog")[0].close()
+    grab(".pdfdialog")[0].close();
     // log("click")
   });
   
-
-
-  // pdfdialog.addEventListener("blur", () => {
-  //   append(".pdfdialog","","o")
-  //   // pdfdialog.classList.remove("showdialog");
-  //   pdfdialog.close();
-  //   log("blur")
-  //   append(pdfdialog,"","r")
-  // });
-
-
   append(
     pdfdialog,
     gen(span, "closedialog", "", "closedialog cross", {
       onclick: "closeparent(this)", title:"close pdf"
     })
   );
-}
+};
 
 WebHelper().init();
 if (window.location.href.includes("Gallery")) {
@@ -1971,15 +1949,12 @@ if (window.location.href.includes("Gallery")) {
   setTimeout(() => {
     load("/gallery.js");
   }, 1000);
-}
+};
 
 reloadPage();
 
 //
 function updateFiledropEventListeners(target = grab("#main")[0]) {
-  // e.preventDefault ();
-  // e.stopPropagation ();
-  // log("updateFiledropEventListeners")
   target.addEventListener("dragover", (e) => {
     e.preventDefault();
   });
@@ -1997,20 +1972,20 @@ function updateFiledropEventListeners(target = grab("#main")[0]) {
     e.preventDefault();
     e.stopPropagation();
     target.classList.add("blur");
-  }
+  };
 
   function ondragleave(e) {
     e.preventDefault();
     e.stopPropagation();
     target.classList.remove("blur");
-  }
+  };
 
   function ondrop(e) {
     e.preventDefault();
     e.stopPropagation();
     target.classList.remove("blur");
     dropfilehandler(e);
-  }
+  };
 
   function dropfilehandler(e) {
     target.classList.remove("blur");
@@ -2032,7 +2007,7 @@ function updateFiledropEventListeners(target = grab("#main")[0]) {
     }
     updateFiledropEventListeners();
   }
-}
+};
 
 // updateFiledropEventListeners()
 
@@ -2053,11 +2028,9 @@ var hidenodescss=`
 [data-dir*="node_modules"]{
   display:none !important;
 }
-`
-setTimeout(loadscss(hidenodescss),2000)
-
-var printSlideStyle=`
-
+`;
+setTimeout(loadscss(hidenodescss),2000);
+var printSlideStyle = `
 @media print {
     @page {
         size: A4 landscape;
@@ -2081,7 +2054,6 @@ var printSlideStyle=`
         break-inside: avoid;
         page-break-inside: avoid;
     }
-
     img {
         display: block;
         page-break-before: auto;
@@ -2100,11 +2072,11 @@ var printSlideStyle=`
       font-size:.8em;
       content: " (" attr(href) ") ";
    }
-}`
+}
+`;
 
 
 var printNotesStyle=`
-
 @media print {
     @page {
         size: A4 portrait;
@@ -2126,24 +2098,13 @@ var printNotesStyle=`
         overflow: auto;
         height: min-content;
         background-color: white;
-padding:.5em;
+        padding:.5em;
     }
 
-    .slide {
-//        page-break-after: always;
-//        break-inside: avoid;
-//        page-break-inside: avoid;
-    }
 
-    .block {
-//        break-inside: avoid;
-//        page-break-inside: avoid;
-    }
 
     img {
         display: block;
-//        page-break-before: auto;
-//        page-break-after: auto;
         page-break-inside: avoid;
         break-inside: avoid;
     }
@@ -2158,17 +2119,9 @@ padding:.5em;
       font-size:.8em;
       content: " (" attr(href) ") ";
    }
-}`
-//loadscss(printSlideStyle,"printSlideStyle")
+}
+   `;
 
-
-//Disable Right Click
-// if(!DEBUG){
-// window.addEventListener("contextmenu",(e)=>{
-// e.preventDefault() 
-// e.stopImmediatePropagation()
-// })
-// }
 console.info(`SlideGen version ${slidegenversion}\ Ready`);
 console.info(`SlideGen copyrights ${slidegenlicense}\ Ready`);
 

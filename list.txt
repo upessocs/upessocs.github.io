@@ -1,6 +1,9 @@
 ./
 ./.Demo
+./.dist
 ./.git
+./.github
+./.libs
 ./CC_AC_CCVT_Sem8
 ./Lectures
 ./ResultPreview

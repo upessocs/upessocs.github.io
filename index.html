@@ -4,10 +4,6 @@
 <head>
 
 
-  <script src="https://sevnjs.github.io/cdn/latest/sevn.min.js"></script>
-  <script src="https://sevnjs.github.io/WebHelper/WebHelper.js"></script>
-  
-
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +23,8 @@
     };
     </script>
     <script type="text/javascript" id="MathJax-script" async
-      src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js">
+      <!-- src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"> -->
+      src="./.libs/tex-mml-chtml.js">
     </script>
 
 </head>
@@ -35,20 +32,21 @@
 <body style="background-color:#222;color:#ccc;font-size:.8rem;">
   <div id="app" class="app">
   </div>
-  <script src="./sevn.min.js"></script>
-  <script src="./WebHelper.js"></script>
+  <script src="./.libs/sevn.min.js"></script>
+  <script src="./.libs/WebHelper.js"></script>
 
 
 
-  <script src="/slidegen.js" defer></script>
-  <!-- <script src="/slidegen.min.js" defer></script> -->
+  <script src="./.libs/slidegen.js" defer></script>
+  <!-- <script src="./.libs/slidegen.min.js" defer></script> -->
 
   
 
   <!-- highlighter -->
   <script>
-    load(["https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css", "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"])
-    setTimeout(hljs.highlightAll(), 2000)
+    <!-- load(["https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css", "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"]) -->
+        load(["./libs/highlight.js/default.min.css", "./.libs/highlight.js/highlight.min.js"])
+    setTimeout(hljs.highlightAll(), 2000);
   </script>
 </body>
 
