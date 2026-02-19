@@ -975,7 +975,7 @@ function footerButtons() {
     `#footerButtons`,
     gen(input, "open", "", "hide", {
       type: "file",
-      accept: ".md,.markdown,.ipynb,png,jpg,mp4",
+      accept: ".md,.markdown,.ipynb,png,jpg,mp4,csv",
       onchange: "openFile()",
       multiple: "true",
     })
@@ -1513,7 +1513,7 @@ function parseCsv(link, callback) {
         };
       var colData = rowData.split(",");
       for (var j = 0; j<colData.length; j++){
-        append(`#tablerow${i}`,gen("td",`tablecol${i}${j}`,colData[j]));
+        append(`#tablerow${i}`,gen("td",`tablecol${i}${j}`,colData[j],"left"));
       };
     };
 
