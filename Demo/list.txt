@@ -1,8 +1,0 @@
-./
-./Markdown File App_development_with_Tauri.md
-./Markdown File Docker_Reference.md
-./CSV List.csv
-./PDF File.pdf
-./Jupyter Notebook.ipynb
-./Word File.docx
-./Excel File.xlsx
