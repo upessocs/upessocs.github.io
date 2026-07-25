@@ -1,11 +1,12 @@
 const slidegenlicense = "copyrights mGeek.in and Dr. Prateek Raj Gautam, soon to be released under Apache 2.0";
-const slidegenversion = `v1.0.1`;
+const slidegenversion = `v1.2.2`;
 
 const setSlidegenTitle = () =>{
     setTimeout(()=>{
         try{ 
-          document.title = grab("h1,h2,h3,h4,h5,h6,p")[0].innerHTML;
-          grab("title[0]").innerText = grab("h1,h2,h3,h4,h5,h6,p,span[0]").innerText;
+          var slideTitle = grab("sideroot h3,h2,h1")[0].innerText
+          document.title = slideTitle;
+          grab("title[0]").innerText = slideTitle;
         }  
         catch (e) {}
         },1000
@@ -324,7 +325,7 @@ table {
                 padding-inline:.5em;
                 cursor: hand;
 
-                a {
+                a, .slideNavLink {
                     background-color: hsl(var(--hue), 50%, 95%);
                     color: var(--accentColor, hsl(var(--hueAscent), 80%, 20%));
                     border-radius: 5px;
@@ -1055,7 +1056,7 @@ function downloadURL(
   append(main,gen(a,"tempdownload","Download " + FileName,"hide",{href:fileListUrl,target:"_blank",download:FileName}))
   setTimeout(() => {
     grab("#tempdownload[0]").click()
-    append("#tempdownload","",'o');
+    append("#tempdownload","",'r');
   }, 1000);
   
 }
@@ -1123,17 +1124,46 @@ function printNotes(){
   loadscss(printNotesStyle,"printNotesStyle");
   window.print()
 }
+
+
+
+
+
+
+function appendBackButton() {
+  if (grab("#back").length != 0) {
+    append("#back", "", "replace");
+  }
+
+  append(
+    `#location`,
+    gen(a, "back", "Back", "pathNavigator", {
+      "data-path":router.dirpath,
+      "data-dir":router.dir,
+      onclick: "changepath(this)",
+      tabindex: 20,
+    })
+  );
+}
+
+
+
+
 function changepath(thispath) {
   // log(thispath.dataset.path)
-  var path = thispath.dataset.path;
+  // var path = thispath.dataset.path;
+  var dir = thispath.dataset.dir;
   var origin = window.location.origin;
-  pathname = path.replace(origin, "");
-  // log(pathname)
-  var router = new Router();
-  router.setdir = pathname;
+  // pathname = path.replace(origin, "");
 
-  window.location.pathname = "/";
+  var router = new Router();
+  // log(dir)
+  router.setfile = "";
+  router.setdir = dir;
+
+  // window.location.pathname = "/";
 }
+
 
 function paginationUpdate(loc = "") {
   // var router = new Router()
@@ -1151,6 +1181,7 @@ function paginationUpdate(loc = "") {
   var printLocation = loc.replaceAll("https://", "").replaceAll("http://", "");
   printLocation.split("/").forEach((l) => {
     if (l.length > 0) {
+      l = l.replaceAll(/(\%20|\s)+/g," ")
       // log(l)
       path += l + "/";
       // append("#location", gen(a, '', l, 'pathNavigator', root + path, { "onclick": "updateOnHashChange()" }))
@@ -1158,6 +1189,7 @@ function paginationUpdate(loc = "") {
         "#location",
         gen(a, "", l, "pathNavigator", {
           "data-path": root + path,
+          "data-dir":path,
           onclick: "changepath(this)",
           tabindex: 20,
         })
@@ -1342,8 +1374,9 @@ function parselist(
             if (link.length > 0 && link != "./") {
               append(
                 directoryGrid,
-                gen(object, `${url}`, linkname, "csvLinks", {
+                gen(object, `${url}`, linkname, "csvLinks Links", {
                   onclick: `parseCsv(\`${url}\`)`,
+                  "data-ext": ext,
                   tabindex: 10,
                 })
               );
@@ -1380,6 +1413,25 @@ function mathjaxHljsCopyIcon() {
 
 
 
+function filtertable(){
+  var searchInput = grab(`#searchcsv[0]`).value;
+  var rows = grab(`tbody .tablerow`);
+  if (searchInput.length == 0){
+    //show all rows
+    rows.forEach(row=>{
+      row.classList.add("hide");
+    });
+  }
+  else{
+    rows.forEach(row=>{
+      row.classList.add("hide");
+      if (row.innerText.toLowerCase().includes(searchInput.toLowerCase())){
+        row.classList.remove("hide");
+      };
+
+    });
+  };
+};  
 
 function parseCsv(link, callback) {
   var filename=link.split("/")[link.split("/").length-1]
@@ -1388,12 +1440,12 @@ function parseCsv(link, callback) {
   loadscss(slideScss);
   getfile(link, (csv) => {
     if (grab("#back").length != 0) {
-      append("#back", "", "replace");
+      append("#back", "", "r");
     }
 
     append(
       `#location`,
-      gen(a, "back", "Back", "pathNavigator", {
+      gen(span, "back", "Back", "pathNavigator", {
         "data-file": "",
         onclick: "appendfile(this)",
         tabindex: 20,
@@ -1434,9 +1486,7 @@ function parseCsv(link, callback) {
         outline:none;
       }
 
-      tr:has(td:empty){
-        display: none;
-      }
+
     }
     
     `
@@ -1444,10 +1494,11 @@ function parseCsv(link, callback) {
 
 
     
+    
     append(`main`, gen(div, "listroot","", "listroot"));
     append(`#listroot`,gen(h1,filename,filename))
     append(`#listroot`,gen(div,"listheader","","listheader"))
-    append(`#listheader`,gen(input,"searchcsv","search","search",{title:"search"}))
+    append(`#listheader`,gen(input,"searchcsv","search","search",{title:"search","onkeydown":"filtertable()"}))
     
     
     var searchElement=grab("#searchcsv")[0]
@@ -1462,24 +1513,31 @@ function parseCsv(link, callback) {
       document.addEventListener("keydown",keyPressHandler) 
     })
 
+    
 
-    append(`#listroot`,gen(table,"tablemain","","listbody"))
 
-    append(tablemain,gen("thead","tablehead",""))
-    append(tablemain,gen("tbody","tablebody",""))
-    console.log(csv)
+    append(`#listroot`,gen(`table`,"tablemain","","listbody"))
+
+    append(`#tablemain`,gen("thead","tablehead"))
+    append(`#tablemain`,gen("tbody","tablebody"))
+    // log(csv)
 
     var csvRows=csv.split("\n")
     for (var i = 0; i<csvRows.length; i++){
       var rowData=csvRows[i]
       // console.log(rowData)
       if (i==0) 
-        {append(`#tablehead`,gen("tr",`tablerow${i}`))} 
+        {
+          append("#tablehead",gen(`tr`,`tablerow${i}`,"","tablerow"))
+
+        } 
       else
-         {append(`#tablebody`,gen("tr",`tablerow${i}`))}
+        {
+          append("#tablebody",gen(`tr`, `tablerow${i}`, "", "tablerow"))
+        }
       var colData = rowData.split(",")
       for (var j = 0; j<colData.length; j++){
-        append(`#tablerow${i}`,gen(td,`tablecol${i}${j}`,colData[j]))
+        append(`#tablerow${i}`,gen(`td`, `tablecol${i}${j}`, colData[j]))
       }
     }
 
@@ -1546,6 +1604,34 @@ function parseCsv(link, callback) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // hide sidebar links on search
 function handleSidebarSearch(){
   var allSlides=grab(".slide")
@@ -1568,23 +1654,15 @@ function handleSidebarSearch(){
 }
 
 
-
 function parseSlide(link, callback) {
   console.info("parseslide");
+  // clear/reset dynamicScript
+  append(`#dynamicScript`,"","r")
+  var dynamicScript
+  
   loadscss(slideScss);
   getfile(link, (md) => {
-    if (grab("#back").length != 0) {
-      append("#back", "", "replace");
-    }
-
-    append(
-      `#location`,
-      gen(a, "back", "Back", "pathNavigator", {
-        "data-file": "",
-        onclick: "appendfile(this)",
-        tabindex: 20,
-      })
-    );
+    appendBackButton()
 
     append(`main`, "", "over");
     updateFiledropEventListeners();
@@ -1601,7 +1679,7 @@ function parseSlide(link, callback) {
     for (var i = 0; i < html.length; i++) {
       var h = html[i];
       if (h.length > 0) {
-        var x = parsemd(h, (H) => {
+        var x = parsemd(h, (H,S="") => {
           append(slideroot, gen(section, `slide${i}`, H, "slide"));
           // if (i != 0 && i != html.length) {
           if (i != 0) {
@@ -1613,12 +1691,21 @@ function parseSlide(link, callback) {
               })
             );
           }
+          if(S!=""){
+            // append("body",gen(script,"",S,"parsedmdScript"));
+              //reset dynamicScript call at starting of parsemd
+              // append(`#dynamicScript`,"","r")
+              
+              dynamicScript = gen(script,"dynamicScript",S,"dynamicScript");
+              dynamicScript.textContent += S;
+              append("body",dynamicScript);
+          }
           append(
             slidenavlist,
             gen(
               li,
               "",
-              gen(a, "", `Slide ${i + 1}`, "slideNavLink", {
+              gen(span, "", `Slide ${i + 1}`, "slideNavLink", {
                 onclick: `slide${i}.scrollIntoView()`,
               })
             )
@@ -1660,17 +1747,18 @@ function parseSlide(link, callback) {
 function parseNotebook(link, callback) {
   loadscss(slideScss);
   getfile(link, (nb) => {
-    if (grab("#back").length != 0) {
-      append("#back", "", "replace");
-    }
-    append(
-      `#location`,
-      gen(a, "back", "Back", "pathNavigator", {
-        "data-file": "",
-        onclick: "appendfile(this)",
-        tabindex: 20,
-      })
-    );
+    appendBackButton()
+    // if (grab("#back").length != 0) {
+    //   append("#back", "", "replace");
+    // }
+    // append(
+    //   `#location`,
+    //   gen(a, "back", "Back", "pathNavigator", {
+    //     "data-file": "",
+    //     onclick: "appendfile(this)",
+    //     tabindex: 20,
+    //   })
+    // );
     if (grab("#main").length != 0) {
       append("#main", "", "over");
 

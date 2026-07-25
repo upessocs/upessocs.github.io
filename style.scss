@@ -301,116 +301,13 @@ a {
     }
 }
 
-.csvLinks{
-
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-content: flex-end;
-    align-self: flex-end;
-    display: inline-block;
-    padding-block: 10px;
-    padding-inline: 15px;
-    margin: 10px;
-    text-transform: uppercase;
-    color: var(--textColor, white);
-    font-size: .7em;
-    border-radius: 3px;
-    text-decoration: none;
-    width: 150px;
-    height: 110px;
-    margin-top: auto;
-    z-index: inherit;
-    background-color: hsla(0, 0%, 100%, 0.104);
-
-    &:hover {
-        box-shadow: 1px 1px 2px white;
-        background-color: hsla(0, 0%, 100%, 0.404);
-
-    }
-
-
-    &:before {
-        background-color: rgb(19, 179, 179);
-        transform: skewY(0deg);
-        width: 60px;
-
-    }
-
-    &:after {
-        position: absolute;
-        bottom:5px;
-        right:5px;
-        content:"CSV";
-        background-color: hsl(var(--hueAscent), 81%, 21%);
-        padding:5px;
-        border-radius: 4px;
-        font-weight: 900;
-    }
-}
 
 
 
 
-.slideLinks {
-
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-content: flex-end;
-    align-self: flex-end;
-    display: inline-block;
-    padding-block: 10px;
-    padding-inline: 15px;
-    margin: 10px;
-    text-transform: uppercase;
-    color: var(--textColor, white);
-    font-size: .7em;
-    border-radius: 3px;
-    text-decoration: none;
-    width: 150px;
-    height: 110px;
-    margin-top: auto;
-    z-index: inherit;
-    background-color: hsla(0, 0%, 100%, 0.104);
-
-    &:hover {
-        box-shadow: 1px 1px 2px white;
-        background-color: hsla(0, 0%, 100%, 0.404);
-
-    }
 
 
-    &:before {
-        background-color: rgb(19, 179, 179);
-        transform: skewY(0deg);
-        width: 60px;
-
-    }
-
-
-
-    &:after {
-        position: absolute;
-        top:5px;
-        right:05px;
-        padding:5px;
-        border-radius: 4px;
-        font-weight: 900;
-        content:attr(data-ext);
-        transform: skewY(-15deg) translateY(0px) rotate(15deg);
-        background-color: hsla(var(--hueAscent,180), var(--satAscent,81%), calc(100% - var(--lightText,50%)), 0.4);
-        color:var(--textColor,white);
-    }
-}
-
-
-
-.csvLinks, .xlsxLinks, .pdfLinks, .Links {
+.slideLinks, .csvLinks, .xlsxLinks, .pdfLinks, .Links {
 
     cursor: pointer;
     position: relative;
@@ -493,6 +390,13 @@ opacity:1;
 
 
 
+.slideLinks, .csvLinks {
+    background-color: hsla(0, 0%, 100%, 0.104);
+    &:after {
+        background-color: hsla(var(--hueAscent,180), var(--satAscent,81%), calc(100% - var(--lightText,50%)), 0.4);
+        color:var(--textColor,white);
+    }
+}
 
 
 
