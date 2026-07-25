@@ -2,10 +2,13 @@
 <html lang="en">
 
 <head>
+  
+  <script src="./.libs/sevn.min.js"></script>
+  <script src="./.libs/WebHelper.js"></script>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SlideGen from Dr. Prateek Raj Gautam</title>
+  <title>Dr. Prateek Raj Gautam Designed using SlideGen by mGeek.in</title>
 
   <!-- MathJax -->
   <script>
@@ -21,38 +24,8 @@
     };
     </script>
     <script type="text/javascript" id="MathJax-script" async
-      src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js">
-    </script>
-
-
-    <script>
-      // Function to dynamically load a script
-      function loadScript(src, isAsync = false, isDefer = false) {
-        const script = document.createElement('script');
-        script.src = src;
-        if (isAsync) script.async = true;
-        if (isDefer) script.defer = true;
-        document.head.appendChild(script);
-      }
-  
-      // Check internet connectivity and access to the remote JS file
-      fetch('https://generatorjs.github.io/generatorjs.cdn/generator.js', { method: 'HEAD' })
-        .then(() => {
-          // If accessible, load remote scripts
-          console.log('Remote scripts are available.');
-          loadScript('https://generatorjs.github.io/generatorjs.cdn/generator.js');
-          loadScript('https://generatorjs.github.io/generatorjs.cdn/generatorWebHelper.js');
-        })
-        .catch(() => {
-          // If not accessible, load local scripts
-          console.log('Falling back to local scripts.');
-          loadScript('.generatorjs/generator.js');  
-          loadScript('.generatorjs/generatorWebHelper.js');  
-        })
-        .finally(() => {
-          // After loading the above, always load the slidegen script
-          loadScript('/slidegen.js', false, true); // defer loading
-        });
+      <!-- src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"> -->
+      src = "./.libs/tex-mml-chtml.js" >
     </script>
 
 </head>
@@ -60,16 +33,21 @@
 <body style="background-color:#222;color:#ccc;font-size:.8rem;">
   <div id="app" class="app">
   </div>
+  <script src="https://sevnjs.github.io/cdn/latest/sevn.min.js"></script>
+  <!-- <script src="https://sevnjs.github.io/WebHelper/WebHelper.js"></script> -->
+  
+  
 
+  <script src="./.libs/slidegen.js" defer></script>
+  <!-- <script src="/slidegen.min.js" defer></script> -->
 
   
 
   <!-- highlighter -->
   <script>
-    setTimeout(()=>{
-    load(["https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css", "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"])
-    setTimeout(hljs.highlightAll(), 1000)
-    },2000)
+    <!-- load(["https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css", "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"]) -->
+    load(["./.libs/highlight.js/default.min.css", "./.libs/highlight.js/highlight.min.js"])
+    setTimeout(hljs.highlightAll(), 2000)
   </script>
 </body>
 

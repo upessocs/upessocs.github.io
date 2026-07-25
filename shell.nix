@@ -10,16 +10,13 @@ pkgs.mkShellNoCC {
     nodejs
     nodePackages.browser-sync 
     nodePackages.nodemon 
-    nodePackages.parcel
     vim 
     curl     
-    vscodium 
+   # vscodium 
     firefox 
-    cinnamon.nemo
   ];
 
   shellHook = ''
-    cowsay ${message}
-    npm run dev & echo "y" | codium . & firefox localhost:3000
+    npm run dev & echo "y" | code . & firefox localhost:3000
     '';
 }

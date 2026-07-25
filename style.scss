@@ -410,7 +410,7 @@ a {
 
 
 
-.csvLinks, .xlsxLinks, .pdfLinks {
+.csvLinks, .xlsxLinks, .pdfLinks, .Links {
 
     cursor: pointer;
     position: relative;
@@ -455,6 +455,7 @@ a {
     }
 }
 
+
 .pdfLinks::after{content:"PDF";}
 .xlsxLinks::after{content:attr(data-ext);}
 .csvLinks::after{content:attr(data-ext);}
@@ -463,6 +464,37 @@ a {
 .odtLinks::after{content:attr(data-ext);}
 .odsLinks::after{content:attr(data-ext);}
 .odpLinks::after{content:attr(data-ext);}
+.Links::after{content:attr(data-ext);}
+
+.Downloadable{
+opacity:1;
+  &:before{  
+    content:" ";
+    position: absolute;
+    top:.5em;
+    width: 2em;
+    height: 2em;
+    background:hsla(120,50%,60%,.5);
+        clip-path: polygon(
+        25% 0%,
+        75% 0%,
+        75% 40%,
+        100% 40%,
+        50% 100%,
+        0% 40%,
+        25% 40%,
+        25% 0%
+    );
+  filter:
+    drop-shadow(0 0 2px white)
+    drop-shadow(0 0 4px white);
+  }
+}
+
+
+
+
+
 
 .button {
     display: inline-block;

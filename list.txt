@@ -1,7 +1,0 @@
-./
-./.git
-./.github
-./Demo
-./.generatorjs
-./.app
-./README.md
