@@ -1255,7 +1255,7 @@ function parselist(
             .replaceAll("/", " / ")
             .replaceAll("-", " ")
             .replaceAll("_", " ");
-          if (link.length > 0 && link != "./") {
+          if (link.length > 0 && link.trim() != "./") {
             var redirect = currentLocation + link.replaceAll("./", "") + "/";
             var dir = link.replaceAll("./", "");
             append(
