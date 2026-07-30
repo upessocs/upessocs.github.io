@@ -227,7 +227,7 @@ table {
         padding: 0.2em;
 
         td {
-            text-align: center;
+            display:flex;
             width: 100%;
             padding: 0.2em;
             background: red;
@@ -243,19 +243,19 @@ table {
         }
 
         .left {
-            text-align: left;
+            justify-content: left;
         }
 
         .right {
-            text-align: right;
+            justify-content: right;
         }
 
         .justify {
-            text-align: justify;
+            justify-content: justify;
         }
 
         .center {
-            text-align: center;
+            justify-content: center;
         }
 
         &:nth-child(even) {
