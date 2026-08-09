@@ -1035,6 +1035,7 @@ function generateView() {
   try {
     route[ext]();
     updateFiledropEventListeners()
+    imageFullscreenToggle()
   } catch (e) { }
 
   // updateFiledropEventListeners()
@@ -2223,3 +2224,28 @@ padding:.5em;
 // }
 console.info(`SlideGen version ${slidegenversion}\ Ready`);
 console.info(`SlideGen copyrights ${slidegenlicense}\ Ready`);
+
+
+
+// add event to double click to toggle class .showFullscreen to be updated
+function imageFullscreenToggle() {
+  var imagFullscreenStyle = `.showFullscreen{
+  height: auto;
+  transition: all .5s ease-in-out;
+  transform: scale(1.1);
+  width: 100% !important;
+}
+  `
+
+  setTimeout(() => {
+    var images = grab("main svg, main img");
+  images.forEach((e) => {
+
+    e.addEventListener("click", () => {
+      e.classList.toggle("showFullscreen");
+      loadscss(imagFullscreenStyle, "imagFullscreenStyle");
+    });
+  });
+
+  }, 2000);
+};
