@@ -3,5 +3,5 @@
 ./.git
 ./.github
 ./.libs
-./Demo
-./README.md
+./Lectures
+./ResultPreview
