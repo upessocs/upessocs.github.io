@@ -1,5 +1,5 @@
 const slidegenlicense = "copyrights mGeek.in and Dr. Prateek Raj Gautam, soon to be released under Apache 2.0";
-const slidegenversion = `v1.2.2`;
+const slidegenversion = `v1.2.4`;
 
 const setSlidegenTitle = () =>{
     setTimeout(()=>{
@@ -21,9 +21,9 @@ var slideScss = `
 @import url("https://fonts.googleapis.com/css2?family=Cantarell&display=swap");
 
 :root {
-    --hue: 235;
+    --hue: 276;
+    --sat: 70%;
     --light: 10%;
-    --sat: 55%;
     --hueAscent: 234;
     --lightAscent: 67%;
     --fontFamily: "Exo Roboto";
@@ -146,7 +146,7 @@ var slideScss = `
     }
 
     &:nth-child(odd) {
-        background-color: hsla(0, 0%, 100%, 0.05);
+        background-color: hsla(0, 60%, 40%, 0.05);
     }
 
     ol,
@@ -794,7 +794,7 @@ hashChannel.addEventListener("message", (e) => {
 });
 
 const convertLocalLinks = () => {
-  var router = new Router();
+  // var router = new Router(); xxx
   setTimeout(() => {
     // document.body.innerHTML = document.body.innerHTML.replaceAll(
     //   "./",
@@ -867,97 +867,194 @@ function hash2dict(hash) {
   return dict;
 }
 
+// class Router { ... } // (Redundant class removed)
+
+
+
+
+// ============================================================================
+// ROUTER CLASS - Hash-based Navigation System
+// ============================================================================
+
+/**
+ * Router class for managing application navigation and URL state
+ * 
+ * Architecture:
+ * - Uses URL hash for storing directory and file paths
+ * - Format: #dir=/path/to/folder/&file=filename.md
+ * - Automatically updates URL when navigation changes
+ * - Provides computed properties for full file paths
+ * 
+ * Properties:
+ * - dir: Current directory path
+ * - file: Current filename
+ * - filepath: Full path to current file
+ * - dirpath: Path to current directory
+ * - hash: Current URL hash
+ * - hashDict: Parsed hash as object
+ * 
+ * @debug Log router instance to inspect current navigation state
+ */
 class Router {
-  constructor() {
-    this.dir = "";
-    this.file = "";
-    this.hashObj = {};
-    this.filepath = "";
-    this.readfromurl();
-    this.readHash();
+    /**
+     * Initializes router by reading URL and hash
+     * Automatically sets up navigation state from current URL
+     */
+    constructor() {
+        this.dir = ""
+        this.file = ""
+        this.page = ""
+        this.hashlink = ""
+        this.hashObj = {}
+        this.filepath = ""
+        this.readfromurl()
+        this.readHash()
 
-    this.updateroute();
-    return this.hash;
-  }
+        this.updateroute()
+        return this.hash
+    }
 
-  readfromurl() {
-    this.host = window.location.host;
-    this.protocol = window.location.protocol + "//";
-    this.pathname = window.location.pathname;
-    this.root = this.protocol + this.host + this.pathname;
-    this.origin = window.location.origin;
-  }
+    /**
+     * Parses current window location into router properties
+     * Extracts: host, protocol, pathname, root, origin
+     */
+    readfromurl() {
+        this.host = window.location.host
+        this.protocol = window.location.protocol + "//"
+        this.pathname = window.location.pathname
+        this.root = this.protocol + this.host + this.pathname
+        this.origin = window.location.origin
 
-  readHash() {
-    this.hash = window.location.hash;
-    this.hashDict = hash2dict(this.hash);
-    this.hash
-      .substring(1)
-      .split("&")
-      .forEach((row) => {
-        var keyval = "";
-        keyval = row.split("=");
+    }
 
-        if (keyval[0] == "dir") {
-          this.dir = keyval[1];
+    /**
+     * Parses URL hash into router state
+     * Extracts directory and file from hash parameters
+     * Updates internal hashObj with all key-value pairs
+     */
+    readHash() {
+        this.hash = window.location.hash
+        this.hashDict = hash2dict(this.hash)
+        this.hash.substring(1,).split("&").forEach(row => {
+            var keyval = row.split("=")
+            var key = keyval[0]
+            var val = keyval[1]
+
+            if (key == "dir" || key == "d") { this.dir = val }
+            if (key == "file" || key == "f") { this.file = val }
+            if (key == "p") { this.page = val }
+            if (key == "h") { this.hashlink = val }
+            
+            this.hashObj[key] = val
+        })
+        this.setdirpath(this.dir, this.file)
+    }
+
+    /**
+     * Updates router state and URL hash
+     * Ensures directory paths end with /
+     * Constructs full filepath from components
+     * Updates window.location.hash if changed
+     * 
+     * @debug Critical method - log before/after state to debug navigation issues
+     */
+    updateroute(updateHash = true) {
+        this.filepath = this.root
+        // this.hash = `d=${this.dir}&f=${this.file}&p=${this.page}&h=${this.hashlink}`
+        // this.hash = `d=${this.dir}&f=${this.file}`
+        this.hash ="";
+        if (this.dir.length>1) this.hash+=`d=${this.dir}&`;
+        if (this.file!="") this.hash+=`f=${this.file}&`;
+        if (this.page) this.hash+=`p=${this.page}&`;
+        if (this.hashlink) this.hash+=`h=${this.hashlink}`;
+        if (this.hash[this.hash.length-1] == "&") this.hash=this.hash.substring(0,this.hash.length-1)
+
+
+
+        if (this.dir.length == 0 || this.dir == "/") {
+            this.dir = "/"
         }
-        if (keyval[0] == "file") {
-          this.file = keyval[1];
+        else {
+            if (this.dir.substring(this.dir.length - 1) != "/") {
+                this.dir += "/"
+            }
+            this.filepath += this.dir
         }
-        this.hashObj[keyval[0]] = keyval[1];
-      });
-    this.setdirpath(this.dir, this.file);
-  }
 
-  updateroute() {
-    this.filepath = this.root;
-    this.hash = `dir=${this.dir}&file=${this.file}`;
-    if (this.dir.length == 0) {
-      this.dir += "/";
-    } else {
-      if (this.dir.substring(this.dir.length - 1) != "/") {
-        this.dir += "/";
-      }
-      this.filepath += this.dir.substring(1);
+        this.dirpath = this.filepath
+        if (this.file.length > 0) {
+            this.filepath += this.file
+        }
+
+        var oldhash = window.location.hash
+        if (updateHash && oldhash != "#" + this.hash) {
+            window.location.hash = this.hash
+        }
     }
 
-    // this.filepath=this.dir==="/"?this.root:this.root+this.dir
-    this.dirpath = this.filepath;
-    if (this.file.length > 0) {
-      this.filepath += this.file;
+    /**
+     * Sets directory and file path, then updates route
+     * 
+     * @param {string} dir - Directory path
+     * @param {string} file - Filename
+     * @param {string} url - Base URL (default: current origin)
+     */
+    setdirpath(dir = "", file = "", url = window.location.origin) {
+        // window.location.href = url
+        this.dir = dir
+        this.file = file
+        this.updateroute()
+    }
+    
+    /**
+     * Getter: Returns full filepath to current view
+     * @returns {string} Complete URL to current file
+     */
+    get view() {
+        return this.filepath
     }
 
-    var oldhash = window.location.hash;
-    if (oldhash != this.hash) {
-      window.location.hash = this.hash;
+    /**
+     * Setter: Updates current file and refreshes route
+     * @param {string} file - New filename
+     */
+    set setfile(file) {
+        this.file = file
+
+        this.updateroute()
     }
-    window.location.hash = this.hash;
-    // this.setdirpath(this.dir, this.file)
-  }
 
-  setdirpath(dir = "", file = "", url = window.location.origin) {
-    // window.location.href = url
-    this.dir = dir;
-    this.file = file;
-    this.updateroute();
-  }
-  get view() {
-    return this.filepath;
-  }
+    /**
+     * Setter: Updates current directory and refreshes route
+     * @param {string} dir - New directory path
+     */
+    set setdir(dir) {
+        this.dir = dir
 
-  set setfile(file) {
-    this.file = file;
+        this.updateroute()
+    }
 
-    this.updateroute();
-  }
 
-  set setdir(dir) {
-    this.dir = dir;
 
-    this.updateroute();
-  }
 }
-const router = new Router();
+
+/**
+ * Global router instance
+ * Used throughout application for navigation state
+ * 
+ * @debug Access via browser console: window.router or just router
+ */
+const router = new Router()
+
+
+
+
+
+
+
+
+
+
 
 function footerButtons() {
   if (grab(`#footerButtons`).length != 0) {
@@ -1007,11 +1104,12 @@ function generateView() {
     append("#appmain", "", "over");
   }
   // append(main, gen(main, "main", "", ",main"), "replace")
-  var file = filedetect();
-
+  
   var file = router.file;
   if (file.length == 0) {
-    router.setfile = "list.txt";
+    router.file = "list.txt";
+    router.updateroute(false);
+    file = "list.txt";
   }
 
   var ext = file.split(".").pop();
@@ -1034,13 +1132,12 @@ function generateView() {
   };
   try {
     route[ext]();
-    updateFiledropEventListeners()
-    imageFullscreenToggle()
+    updateFiledropEventListeners();
+    imageFullscreenToggle();
   } catch (e) { }
 
   // updateFiledropEventListeners()
-
-}
+};
 
 
 
@@ -1071,7 +1168,7 @@ function downloadURL(
 
 
 async function filedetect() {
-  var router = new Router();
+  // var router = new Router(); xxx
   var presentfile = "";
   var files = "slide.ipynb,slide.md".split(",");
   files.forEach((file) => {
@@ -1085,13 +1182,26 @@ async function filedetect() {
   return presentfile;
 }
 
+
+
+
+
+
+/**
+ * Handles URL hash changes to update application state.
+ * 
+ * @debug Triggered on hashchange. 
+ * Checks if directory has an index.html and redirects if so.
+ * Reloads the page view.
+ */
 function updateOnHashChange() {
   window.removeEventListener("hashchange", updateOnHashChange);
-  var router = new Router();
+  
+  // Use global router instance
   if (router.dir != "/") {
-    var oldroot = router.root;
     var indexpath = router.root + router.dir.substring(1) + "index.html";
     var newroot = router.root + router.dir.substring(1);
+    var old_dir = router.dir;
     router.dir = "/";
     fetch(indexpath).then((res) => {
       if (res.status == 200) {
@@ -1101,8 +1211,7 @@ function updateOnHashChange() {
   }
 
   reloadPage();
-  
-}
+};
 
 function reloadPage() {
   sessionStorage.clear();
@@ -1138,7 +1247,7 @@ function appendBackButton() {
 
   append(
     `#location`,
-    gen(a, "back", "Back", "pathNavigator", {
+    gen(span, "back", "Back", "pathNavigator", {
       "data-path":router.dirpath,
       "data-dir":router.dir,
       onclick: "changepath(this)",
@@ -1151,23 +1260,17 @@ function appendBackButton() {
 
 
 function changepath(thispath) {
-  // log(thispath.dataset.path)
-  // var path = thispath.dataset.path;
   var dir = thispath.dataset.dir;
-  var origin = window.location.origin;
-  // pathname = path.replace(origin, "");
-
-  var router = new Router();
-  // log(dir)
+  
+  // Use global router instance
   router.setfile = "";
   router.setdir = dir;
-
-  // window.location.pathname = "/";
-}
+};
 
 
+
+// navication links
 function paginationUpdate(loc = "") {
-  // var router = new Router()
   router.readHash();
   loc = router.pathname + router.dir;
   if (grab("#location").length != 0) {
@@ -1188,7 +1291,7 @@ function paginationUpdate(loc = "") {
       // append("#location", gen(a, '', l, 'pathNavigator', root + path, { "onclick": "updateOnHashChange()" }))
       append(
         "#location",
-        gen(a, "", l, "pathNavigator", {
+        gen(span, "", l, "pathNavigator", {
           "data-path": root + path,
           "data-dir":path,
           onclick: "changepath(this)",
@@ -1203,191 +1306,174 @@ function paginationUpdate(loc = "") {
 
 loadBasicSkeleton();
 
-function appendDir(e) {
-  var newDir = router.dir + e.dataset.dir;
-  newDir = newDir.replaceAll("//", "/").replaceAll("\\\\", "\\");
-  router.setdirpath(newDir, "");
+
+
+
+
+
+
+  const appendDir = (e) => {
+    var newDir = router.dir + e.dataset.dir;
+    newDir = newDir.replaceAll("//", "/").replaceAll("\\\\", "\\");
+    router.setdirpath(newDir, "");
+  }
+
+  const appendfile = (e) => {
+    router.setdirpath(router.dir, e.dataset.file);
+  }
+
+
+
+
+/*
+ * Supported file types.
+ * Each entry defines its HTML element, CSS classes, and click action.
+ */
+const fileTypes = {
+  md: {
+    tag: span,
+    className: "slideLinks",
+    action: "appendfile"
+  },
+  ipynb: {
+    tag: span,
+    className: "slideLinks,notebookLinks",
+    action: "appendfile"
+  },
+  pdf: {
+    tag: object,
+    className: "pdfLinks",
+    action: "parsePdf"
+  },
+  csv: {
+    tag: object,
+    className: "csvLinks Links",
+    action: "parseCsv"
+  },
+  docx: { tag: span, className: "Links Downloadable", action: "downloadURL" },
+  xlsx: { tag: span, className: "Links Downloadable", action: "downloadURL" },
+  pptx: { tag: span, className: "Links Downloadable", action: "downloadURL" },
+  odt:  { tag: span, className: "Links Downloadable", action: "downloadURL" },
+  ods:  { tag: span, className: "Links Downloadable", action: "downloadURL" },
+  odp:  { tag: span, className: "Links Downloadable", action: "downloadURL" }
+};
+
+// Remove whitespace and a leading "./" prefix.
+function cleanPath(path) {
+  return path.trim().replace(/^\.\//, "");
 }
-function appendfile(e) {
-  router.setdirpath(router.dir, e.dataset.file);
+
+// Extract the extension from the filename, not its directory path.
+function getExtension(path) {
+  const filename = path.split("/").filter(Boolean).pop() || "";
+  const dot = filename.lastIndexOf(".");
+
+  return dot > 0 ? filename.slice(dot + 1).toLowerCase() : "";
+}
+
+// Create a readable label from a file or directory path.
+function getDisplayName(path) {
+  return path
+    .replace(/\/$/, "")
+    .replace(/\.[^.\/]+$/, "")
+    .replaceAll("/", " / ")
+    .replaceAll("-", " ")
+    .replaceAll("_", " ");
+}
+
+// Determine whether an entry represents a directory.
+// Change this if your list generator uses a different directory format.
+function isDirectory(path) {
+  return path.endsWith("/") || getExtension(path) === "";
+}
+
+// Create the appropriate element for one file.
+function renderFile(path, currentLocation) {
+  const ext = getExtension(path);
+  const config = fileTypes[ext];
+
+  // Ignore file types that have no configured renderer.
+  if (!config) return;
+
+  const file = cleanPath(path);
+  const url = currentLocation + file;
+  const name = getDisplayName(file);
+
+  // Keep the original onclick-based integration with your existing handlers.
+  const actions = {
+    appendfile: `appendfile(this)`,
+    parsePdf: `parsePdf(\`${url}\`)`,
+    parseCsv: `parseCsv(\`${url}\`)`,
+    downloadURL: `downloadURL(\`${url}\`)`
+  };
+
+  const attrs = {
+    "data-ext": ext,
+    "data-file": file,
+    onclick: actions[config.action],
+    tabindex: 10
+  };
+
+  // Preserve the original download title.
+  if (config.action === "downloadURL") {
+    attrs.title = `download ${ext}`;
+  }
+
+  append(
+    directoryGrid,
+    gen(config.tag, url, name, config.className, attrs)
+  );
 }
 
 function parselist(
   fileListUrl = window.location.origin + window.location.pathname + "list.txt",
   target = "#main"
 ) {
-  var filelist = "";
   getfile(fileListUrl, (filelist) => {
+    // Create the main containers once.
     append(target, "", "over");
-    append(
-      target,
-      gen(div, "appmain", gen(h1, "", "File Browser", "heading"), "appmain"),
-      "over"
-    );
-
+    append(target, gen(div, "appmain", "", "appmain"), "over");
     append(appmain, gen(div, "directoryGrid", "", "dirGrid"));
 
-    var currentLocation = router.dirpath;
+    const currentLocation = router.dirpath;
 
-    filelist
-      .split("\n")
-      .sort()
-      .forEach((link, i) => {
-        var url = currentLocation + link.replaceAll("./", "");
-        link = link.replaceAll("\t", "").replaceAll("\n", "");
-        //for directories
-        var ext = link.split(".").pop();
-        // log(ext)
-        if (
-          link[2] != "." &&
-          !link.includes(".md") &&
-          !link.includes(".ipynb") &&
-          !link.includes(".pdf") &&
-          !link.includes(".csv") &&
-          !link.includes(".docx") &&
-          !link.includes(".pptx") &&
-          !link.includes(".xlsx") &&
-          !link.includes(".odt") &&
-          !link.includes(".odp") &&
-          !link.includes(".ods")
-        ) {
-          var linkname = link
-            .replaceAll("./", "")
-            .replaceAll("/", " / ")
-            .replaceAll("-", " ")
-            .replaceAll("_", " ");
-          if (link.length > 0 && link.trim() != "./") {
-            var redirect = currentLocation + link.replaceAll("./", "") + "/";
-            var dir = link.replaceAll("./", "");
-            append(
-              `#directoryGrid`,
-              gen(a, "", linkname, "folderLinks", {
-                "data-dir": dir,
-                onclick: `appendDir(this)`,
-                tabindex: 10,
-              })
-            );
-          }
-        }
+    // Clean the entries before sorting and processing them.
+    const links = filelist
+      .split(/\r?\n/)
+      .map(cleanPath)
+      .filter(path => path && path !== "." && path !== "../")
+      .sort();
 
-        //for markdown files
-        if (link[2] != "." && link.includes(".md")) {
-          var linkname = link
-            .replaceAll("./", "")
-            .replaceAll("/", " / ")
-            .replaceAll("-", " ")
-            .replaceAll(".md", "")
-            .replaceAll("_", " ");
-          if (link.length > 0 && link != "./") {
-            var file = link.replaceAll("./", "");
-            append(
-              directoryGrid,
-              gen(a, `${url}`, linkname, "slideLinks", {
-                "data-ext":ext,
-                "data-file": file,
-                onclick: `appendfile(this)`,
-                tabindex: 10,
-              })
-            );
-          }
-        }
+    links.forEach((path) => {
+      // Skip parent-directory traversal entries.
+      if (path.startsWith("../")) return;
+      if (path[0] == "." ) return;
 
-        //for notebook files
-        if (link[2] != "." && link.includes(".ipynb")) {
-          var linkname = link
-            .replaceAll("./", "")
-            .replaceAll("/", " / ")
-            .replaceAll("-", " ")
-            .replaceAll(".ipynb", "")
-            .replaceAll("_", " ");
-          var file = link.replaceAll("./", "");
-          if (link.length > 0 && link != "./") {
-            append(
-              directoryGrid,
-              gen(a, `${url}`, linkname, "slideLinks,notebookLinks", {
-                "data-ext":ext,
-                "data-file": file,
-                onclick: `appendfile(this)`,
-                tabindex: 10,
-              })
-            );
-          }
-        }
-        //for pdf files
-        if (ext == "pdf") {
-          // log("pdf")
-          var linkname = link
-            .replaceAll("./", "")
-            .replaceAll("/", " / ")
-            .replaceAll("-", " ")
-            .replaceAll(".ipynb", "")
-            .replaceAll("_", " ");
-          if (link.length > 0 && link != "./") {
-            append(
-              directoryGrid,
-              gen(object, `${url}`, linkname, "pdfLinks", {
-                onclick: `parsePdf(\`${url}\`)`,
-                tabindex: 10,
-              })
-            );
-          }
-        }
+      // Render directories separately from files.
+      if (isDirectory(path)) {
+        const dir = path.replace(/\/$/, "");
+        const name = getDisplayName(dir);
 
+        append(
+          "#directoryGrid",
+          gen(span, "", name, "folderLinks", {
+            "data-dir": dir,
+            onclick: "appendDir(this)",
+            tabindex: 10
+          })
+        );
 
+        return;
+      }
 
-          var downloadableFilesExtensions = "docx,xlsx,pptx,odt,ods,odp".split(",")
-
-                //for downloadableFilesExtensions  files
-                if ( link[2] != "." && downloadableFilesExtensions.includes(ext)) {
-                  // log("xlsx")
-                  var linkname = link
-                    .replaceAll("./", "")
-                    .replaceAll("/", " / ")
-                    .replaceAll("-", " ")
-                    .replaceAll(`.${ext}`, "")
-                    .replaceAll("_", " ");
-                  if (link.length > 0 && link != "./") {
-                    append(
-                      directoryGrid,
-                      // gen(a, `${url}`, linkname, "pdfLinks,xlsxLinks", {
-                        gen(a, `${url}`, linkname, "Links Downloadable", {"data-ext":ext,
-                        onclick: `downloadURL(\`${url}\`)`,
-                        tabindex: 10,
-                        title:`download ${ext}`
-                      })
-                    );
-                  }
-                }
-
-
-
-                
-
-          //for csv files
-          if (ext == "csv") {
-            // log("pdf")
-            var linkname = link
-              .replaceAll("./", "")
-              .replaceAll("/", " / ")
-              .replaceAll("-", " ")
-              .replaceAll(".csv", "")
-              .replaceAll("_", " ");
-            if (link.length > 0 && link != "./") {
-              append(
-                directoryGrid,
-                gen(object, `${url}`, linkname, "csvLinks Links", {
-                  onclick: `parseCsv(\`${url}\`)`,
-                  "data-ext": ext,
-                  tabindex: 10,
-                })
-              );
-            }
-          }
-
-
-      });
+      // All supported files share the same rendering logic.
+      renderFile(path, currentLocation);
+    });
   });
 }
+
+
+
 
 function mathjaxHljsCopyIcon() {
   console.info("mathjaxHljsCopyIcon");
@@ -1444,14 +1530,8 @@ function parseCsv(link, callback) {
       append("#back", "", "r");
     }
 
-    append(
-      `#location`,
-      gen(span, "back", "Back", "pathNavigator", {
-        "data-file": "",
-        onclick: "appendfile(this)",
-        tabindex: 20,
-      })
-    );
+
+    appendBackButton()
 
     append(`main`, "", "over");
     updateFiledropEventListeners();
@@ -1497,7 +1577,7 @@ function parseCsv(link, callback) {
     
     
     append(`main`, gen(div, "listroot","", "listroot"));
-    append(`#listroot`,gen(h1,filename,filename))
+    append(`#listroot`,gen(h1,filename,filename.replaceAll("%20"," ")))
     append(`#listroot`,gen(div,"listheader","","listheader"))
     append(`#listheader`,gen(input,"searchcsv","search","search",{title:"search","onkeydown":"filtertable()"}))
     
@@ -1749,17 +1829,7 @@ function parseNotebook(link, callback) {
   loadscss(slideScss);
   getfile(link, (nb) => {
     appendBackButton()
-    // if (grab("#back").length != 0) {
-    //   append("#back", "", "replace");
-    // }
-    // append(
-    //   `#location`,
-    //   gen(a, "back", "Back", "pathNavigator", {
-    //     "data-file": "",
-    //     onclick: "appendfile(this)",
-    //     tabindex: 20,
-    //   })
-    // );
+
     if (grab("#main").length != 0) {
       append("#main", "", "over");
 

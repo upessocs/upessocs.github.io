@@ -1,14 +1,11 @@
-//
-//some temp style in nested css/ scss format
-//@import url('https://fonts.googleapis.com/css2?family=Finlandica:ital@1&display=swap');
-//
+@import url('https://fonts.googleapis.com/css2?family=Finlandica:ital@1&display=swap');
 
 :root {
-    --hue: 235;
-    --sat: 35%;
-    --light: 12%;
-    --hueAscent: 180;
-    --satAscent: 50%;
+    --hue: 276;
+    --sat: 70%;
+    --light: 10%;
+    --hueAscent: 220;
+    --satAscent: 60%;
     --lightAscent: 80%;
     --lightText:98%;
     --textColor: hsl(var(--hue),100%,var(--lightText));

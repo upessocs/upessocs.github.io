@@ -8,8 +8,8 @@ pkgs.mkShellNoCC {
 
   packages = with pkgs; [
     nodejs
-    nodePackages.browser-sync 
-    nodePackages.nodemon 
+    browser-sync 
+    nodemon 
     vim 
     curl     
    # vscodium 
